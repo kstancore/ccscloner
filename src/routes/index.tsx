@@ -71,10 +71,14 @@ function Home() {
     <div className="min-h-screen bg-soft-gradient">
       <header className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
         <div className="flex items-center gap-2">
-          <span className="grid size-8 place-items-center rounded-lg bg-hero-gradient text-primary-foreground">
-            <Sparkles className="size-4" />
-          </span>
-          <span className="font-display text-lg font-semibold">CCSCloner</span>
+          <img
+            src={logoAsset.url}
+            alt="CCSCloner logo"
+            width={32}
+            height={32}
+            className="size-8 object-contain"
+          />
+          <span className="font-display text-lg font-semibold tracking-tight">CCSCloner</span>
         </div>
         <div className="flex items-center gap-2">
           <Button asChild variant="ghost" size="sm">
