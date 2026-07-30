@@ -77,14 +77,20 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "CCSCloner — Extract any website's visual identity" },
+      {
+        name: "description",
+        content:
+          "Paste a URL and CCSCloner documents its colours, typography, spacing, code and visual system into an editable, downloadable guide.",
+      },
+      { name: "author", content: "CCSCloner" },
+      { property: "og:title", content: "CCSCloner — Extract any website's visual identity" },
+      {
+        property: "og:description",
+        content: "Turn any web page into a complete, downloadable design system guide.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
       {
