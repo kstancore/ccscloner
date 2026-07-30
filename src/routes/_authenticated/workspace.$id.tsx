@@ -3,7 +3,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft, FileDown, FileText, Save, ExternalLink } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
-import type { SiteReport } from "@/lib/extract.server";
+import type { SiteReport } from "@/lib/report-types";
 import { downloadDocx, downloadPdf } from "@/lib/export-doc";
 import { AppShell } from "@/components/AppShell";
 import { ReportView } from "@/components/ReportView";
