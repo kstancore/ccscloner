@@ -9,7 +9,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import heroImage from "@/assets/hero-extract.jpg";
-import logoAsset from "@/assets/ccscloner-logo.png.asset.json";
+import { Logo } from "@/components/Logo";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
