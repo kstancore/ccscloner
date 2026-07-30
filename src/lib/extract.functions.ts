@@ -20,7 +20,7 @@ export const analyzeUrl = createServerFn({ method: "POST" })
         user_id: context.userId,
         url: report.url,
         title: report.title,
-        data: report as unknown as Record<string, unknown>,
+        data: JSON.parse(JSON.stringify(report)),
         documentation,
       })
       .select("id")
