@@ -1,7 +1,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { LogOut, LayoutDashboard, UserRound } from "lucide-react";
-import logoAsset from "@/assets/ccscloner-logo.png.asset.json";
+import { Logo } from "@/components/Logo";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -57,16 +57,10 @@ export function AppShell({
     <div className="min-h-screen bg-soft-gradient">
       <header className="sticky top-0 z-30 border-b border-border/70 bg-background/85 backdrop-blur">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4">
-          <Link to="/" className="flex items-center gap-2">
-            <img
-              src={logoAsset.url}
-              alt="CCSCloner logo"
-              width={32}
-              height={32}
-              className="size-8 object-contain"
-            />
-            <span className="font-display text-lg font-semibold tracking-tight">CCSCloner</span>
+          <Link to="/" className="flex items-center">
+            <Logo size="sm" />
           </Link>
+
 
           <nav className="flex items-center gap-1">
             <Button

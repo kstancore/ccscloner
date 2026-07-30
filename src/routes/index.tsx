@@ -9,7 +9,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import heroImage from "@/assets/hero-extract.jpg";
-import logoAsset from "@/assets/ccscloner-logo.png.asset.json";
+import { Logo } from "@/components/Logo";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -70,16 +70,8 @@ function Home() {
   return (
     <div className="min-h-screen bg-soft-gradient">
       <header className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
-        <div className="flex items-center gap-2">
-          <img
-            src={logoAsset.url}
-            alt="CCSCloner logo"
-            width={32}
-            height={32}
-            className="size-8 object-contain"
-          />
-          <span className="font-display text-lg font-semibold tracking-tight">CCSCloner</span>
-        </div>
+        <Logo size="sm" />
+
         <div className="flex items-center gap-2">
           <Button asChild variant="ghost" size="sm">
             <Link to="/auth">Log in</Link>
@@ -92,9 +84,11 @@ function Home() {
 
       <section className="mx-auto grid max-w-6xl items-center gap-10 px-4 pb-16 pt-10 md:grid-cols-2 md:pt-16">
         <div>
+          <Logo size="lg" showWordmark={false} className="mb-6" />
           <span className="inline-flex items-center gap-2 rounded-full bg-highlight px-3 py-1 text-xs font-medium text-highlight-foreground">
             Design intelligence for builders
           </span>
+
           <h1 className="mt-5 text-4xl font-semibold leading-tight md:text-5xl">
             Paste a URL. Get the whole visual identity.
           </h1>
