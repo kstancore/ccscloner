@@ -254,11 +254,11 @@ export function buildDocumentation(report: SiteReport): string {
   const line = (s = "") => s;
   const list = (items: string[]) => (items.length ? items.map((i) => `- ${i}`).join("\n") : "- (none detected)");
 
-  return [
+  const parts: (string | null)[] = [
     `# Visual Identity Guide — ${report.title}`,
     ``,
     `**Source:** ${report.url}`,
-    report.description ? `**Summary:** ${report.description}` : "",
+    report.description ? `**Summary:** ${report.description}` : null,
     ``,
     `## 1. Overview`,
     `This guide documents the visual identity of the analysed page: colour usage, typography, spacing rhythm, component shapes and structural composition. Use it as an implementation reference.`,
@@ -266,7 +266,7 @@ export function buildDocumentation(report: SiteReport): string {
     `- HTML weight: ${(report.stats.htmlBytes / 1024).toFixed(1)} KB`,
     `- CSS analysed: ${(report.stats.cssBytes / 1024).toFixed(1)} KB across ${report.stylesheets.length} stylesheet(s)`,
     `- Images: ${report.stats.imageCount} · Links: ${report.stats.linkCount} · Scripts: ${report.scripts}`,
-    report.frameworks.length ? `- Detected technology: ${report.frameworks.join(", ")}` : "",
+    report.frameworks.length ? `- Detected technology: ${report.frameworks.join(", ")}` : null,
     ``,
     `## 2. Colour palette`,
     list(report.colors.slice(0, 16).map((c) => `${c.value} — used ${c.count} time(s)`)),
@@ -303,7 +303,7 @@ export function buildDocumentation(report: SiteReport): string {
     `**Heading outline**`,
     list(report.headings.map((h) => `${h.level.toUpperCase()}: ${h.text}`)),
     ``,
-    report.buttonsSample.length ? `**Interactive labels**\n${list(report.buttonsSample)}\n` : "",
+    report.buttonsSample.length ? `**Interactive labels**\n${list(report.buttonsSample)}\n` : null,
     `## 9. Implementation notes`,
     `- Recreate the palette as semantic tokens (background, foreground, primary, accent) rather than hard-coded values.`,
     `- Load the listed font families first; typography carries most of the perceived identity.`,
@@ -311,7 +311,7 @@ export function buildDocumentation(report: SiteReport): string {
     `- Match corner radii and shadow depth to reproduce the component feel.`,
     ``,
     line(),
-  ]
-    .filter((v) => v !== "")
-    .join("\n");
+  ];
+
+  return parts.filter((v): v is string => v !== null).join("\n");
 }
