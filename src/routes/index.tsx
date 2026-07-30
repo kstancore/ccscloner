@@ -7,9 +7,9 @@ import {
   BarChart3,
   FileDown,
   ArrowRight,
-  Sparkles,
 } from "lucide-react";
 import heroImage from "@/assets/hero-extract.jpg";
+import logoAsset from "@/assets/ccscloner-logo.png.asset.json";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
