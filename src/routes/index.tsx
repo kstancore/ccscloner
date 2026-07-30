@@ -84,9 +84,11 @@ function Home() {
 
       <section className="mx-auto grid max-w-6xl items-center gap-10 px-4 pb-16 pt-10 md:grid-cols-2 md:pt-16">
         <div>
+          <Logo size="lg" showWordmark={false} className="mb-6" />
           <span className="inline-flex items-center gap-2 rounded-full bg-highlight px-3 py-1 text-xs font-medium text-highlight-foreground">
             Design intelligence for builders
           </span>
+
           <h1 className="mt-5 text-4xl font-semibold leading-tight md:text-5xl">
             Paste a URL. Get the whole visual identity.
           </h1>
