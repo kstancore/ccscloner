@@ -57,10 +57,14 @@ export function AppShell({
       <header className="sticky top-0 z-30 border-b border-border/70 bg-background/85 backdrop-blur">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4">
           <Link to="/" className="flex items-center gap-2">
-            <span className="grid size-8 place-items-center rounded-lg bg-hero-gradient text-primary-foreground">
-              <Sparkles className="size-4" />
-            </span>
-            <span className="font-display text-lg font-semibold">CCSCloner</span>
+            <img
+              src={logoAsset.url}
+              alt="CCSCloner logo"
+              width={32}
+              height={32}
+              className="size-8 object-contain"
+            />
+            <span className="font-display text-lg font-semibold tracking-tight">CCSCloner</span>
           </Link>
 
           <nav className="flex items-center gap-1">
