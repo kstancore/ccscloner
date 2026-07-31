@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, HomeIcon } from "lucide-react";
 import heroImage from "@/assets/hero-extract.jpg";
 import { Logo } from "@/components/Logo";
 import { Button } from "@/components/ui/button";
@@ -31,6 +31,11 @@ function Home() {
         <Logo size="sm" />
 
         <div className="flex items-center gap-2">
+          <Button asChild variant="secondary" size="sm">
+            <Link to="/">
+              <HomeIcon /> Home
+            </Link>
+          </Button>
           <Button asChild variant="ghost" size="sm">
             <Link to="/features">Features</Link>
           </Button>
