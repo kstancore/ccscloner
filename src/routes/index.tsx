@@ -1,17 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import {
-  Palette,
-  Type,
-  Ruler,
-  Code2,
-  BarChart3,
-  FileDown,
-  ArrowRight,
-} from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import heroImage from "@/assets/hero-extract.jpg";
 import { Logo } from "@/components/Logo";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export const Route = createFileRoute("/")({
   head: () => ({
