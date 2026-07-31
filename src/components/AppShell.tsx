@@ -63,6 +63,11 @@ export function AppShell({
 
 
           <nav className="flex items-center gap-1">
+            <Button asChild variant={pathname === "/" ? "secondary" : "ghost"} size="sm">
+              <Link to="/">
+                <Home /> Home
+              </Link>
+            </Button>
             <Button
               asChild
               variant={pathname.startsWith("/workspace") ? "secondary" : "ghost"}
