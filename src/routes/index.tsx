@@ -31,6 +31,11 @@ function Home() {
         <Logo size="sm" />
 
         <div className="flex items-center gap-2">
+          <Button asChild variant="secondary" size="sm">
+            <Link to="/">
+              <HomeIcon /> Home
+            </Link>
+          </Button>
           <Button asChild variant="ghost" size="sm">
             <Link to="/features">Features</Link>
           </Button>
