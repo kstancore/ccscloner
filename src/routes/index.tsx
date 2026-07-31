@@ -1,17 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import {
-  Palette,
-  Type,
-  Ruler,
-  Code2,
-  BarChart3,
-  FileDown,
-  ArrowRight,
-} from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import heroImage from "@/assets/hero-extract.jpg";
 import { Logo } from "@/components/Logo";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -33,39 +24,6 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
-const features = [
-  {
-    icon: Palette,
-    title: "Colour system",
-    body: "Every hex, rgb and oklch value ranked by how often the page uses it, so you can rebuild the palette in minutes.",
-  },
-  {
-    icon: Type,
-    title: "Typography",
-    body: "Font families, the full type scale and weight ladder pulled straight from the stylesheets.",
-  },
-  {
-    icon: Ruler,
-    title: "Spacing & shape",
-    body: "Margins, padding, gaps, corner radii and shadow depth — the rhythm that makes a layout feel right.",
-  },
-  {
-    icon: Code2,
-    title: "Code & tokens",
-    body: "CSS custom properties, stylesheet sources and detected frameworks, captured as raw reference.",
-  },
-  {
-    icon: BarChart3,
-    title: "Visualisations",
-    body: "Charts of element composition and colour distribution so structure is visible at a glance.",
-  },
-  {
-    icon: FileDown,
-    title: "Downloadable guides",
-    body: "Edit the generated documentation, then export it as a polished PDF or Word document.",
-  },
-];
-
 function Home() {
   return (
     <div className="min-h-screen bg-soft-gradient">
@@ -73,6 +31,9 @@ function Home() {
         <Logo size="sm" />
 
         <div className="flex items-center gap-2">
+          <Button asChild variant="ghost" size="sm">
+            <Link to="/features">Features</Link>
+          </Button>
           <Button asChild variant="ghost" size="sm">
             <Link to="/auth">Log in</Link>
           </Button>
@@ -99,7 +60,7 @@ function Home() {
               </Link>
             </Button>
             <Button asChild size="lg" variant="outline">
-              <a href="#how">See how it works</a>
+              <Link to="/features">See how it works</Link>
             </Button>
           </div>
         </div>
@@ -111,43 +72,6 @@ function Home() {
           alt="A web page being decomposed into colour swatches, type specimens and spacing rulers"
           className="rounded-2xl border border-border shadow-lift"
         />
-      </section>
-
-      <section id="how" className="mx-auto max-w-6xl px-4 pb-16">
-        <h2 className="text-2xl font-semibold">What we extract</h2>
-        <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-          One analysis pass, six layers of documentation.
-        </p>
-        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {features.map((f) => (
-            <Card key={f.title} className="border-border/80 shadow-soft">
-              <CardHeader>
-                <span className="grid size-10 place-items-center rounded-xl bg-secondary text-secondary-foreground">
-                  <f.icon className="size-5" />
-                </span>
-                <CardTitle className="pt-2 text-base">{f.title}</CardTitle>
-              </CardHeader>
-              <CardContent className="text-sm leading-relaxed text-muted-foreground">
-                {f.body}
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-6xl px-4 pb-20">
-        <div className="grid gap-6 rounded-2xl bg-hero-gradient p-8 text-primary-foreground shadow-lift md:grid-cols-3">
-          {[
-            ["1. Create your account", "Tell us your nickname and where you work or study."],
-            ["2. Paste a URL", "Drop any public page into the workspace and press start."],
-            ["3. Edit & download", "Refine the generated guide and export it as PDF or DOCX."],
-          ].map(([title, body]) => (
-            <div key={title}>
-              <h3 className="text-lg font-semibold text-primary-foreground">{title}</h3>
-              <p className="mt-2 text-sm opacity-90">{body}</p>
-            </div>
-          ))}
-        </div>
       </section>
 
       <footer className="border-t border-border/70 py-8">
