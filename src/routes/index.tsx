@@ -24,39 +24,6 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
-const features = [
-  {
-    icon: Palette,
-    title: "Colour system",
-    body: "Every hex, rgb and oklch value ranked by how often the page uses it, so you can rebuild the palette in minutes.",
-  },
-  {
-    icon: Type,
-    title: "Typography",
-    body: "Font families, the full type scale and weight ladder pulled straight from the stylesheets.",
-  },
-  {
-    icon: Ruler,
-    title: "Spacing & shape",
-    body: "Margins, padding, gaps, corner radii and shadow depth — the rhythm that makes a layout feel right.",
-  },
-  {
-    icon: Code2,
-    title: "Code & tokens",
-    body: "CSS custom properties, stylesheet sources and detected frameworks, captured as raw reference.",
-  },
-  {
-    icon: BarChart3,
-    title: "Visualisations",
-    body: "Charts of element composition and colour distribution so structure is visible at a glance.",
-  },
-  {
-    icon: FileDown,
-    title: "Downloadable guides",
-    body: "Edit the generated documentation, then export it as a polished PDF or Word document.",
-  },
-];
-
 function Home() {
   return (
     <div className="min-h-screen bg-soft-gradient">
