@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Home } from "lucide-react";
+import { ArrowRight, HomeIcon } from "lucide-react";
 import heroImage from "@/assets/hero-extract.jpg";
 import { Logo } from "@/components/Logo";
 import { Button } from "@/components/ui/button";
