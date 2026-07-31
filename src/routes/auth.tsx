@@ -88,16 +88,24 @@ function AuthPage() {
   };
 
   return (
-    <div className="grid min-h-screen bg-soft-gradient px-4 py-10 place-items-center">
-      <div className="w-full max-w-md">
-        <Link to="/" className="mb-6 flex items-center justify-center gap-2">
-          <span className="grid size-8 place-items-center rounded-lg bg-hero-gradient text-primary-foreground">
+    <div className="min-h-screen bg-soft-gradient">
+      <header className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
+        <Link to="/" className="flex items-center gap-2">
+          <span className="grid size their size-8 place-items-center rounded-lg bg-hero-gradient text-primary-foreground">
             <Sparkles className="size-4" />
           </span>
           <span className="font-display text-lg font-semibold">CCSCloner</span>
         </Link>
 
-        <Card className="shadow-lift">
+        <Button asChild variant="ghost" size="sm">
+          <Link to="/">
+            <Home /> Home
+          </Link>
+        </Button>
+      </header>
+
+      <div className="mx-auto flex max-w-md flex-col items-center px-4 py-10">
+        <Card className="w-full shadow-lift">
           <CardHeader>
             <CardTitle>Welcome</CardTitle>
             <CardDescription>
