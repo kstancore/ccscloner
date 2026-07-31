@@ -91,7 +91,7 @@ function AuthPage() {
     <div className="min-h-screen bg-soft-gradient">
       <header className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
         <Link to="/" className="flex items-center gap-2">
-          <span className="grid size their size-8 place-items-center rounded-lg bg-hero-gradient text-primary-foreground">
+          <span className="grid size-8 place-items-center rounded-lg bg-hero-gradient text-primary-foreground">
             <Sparkles className="size-4" />
           </span>
           <span className="font-display text-lg font-semibold">CCSCloner</span>
