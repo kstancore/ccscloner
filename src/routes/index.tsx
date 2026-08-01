@@ -54,9 +54,8 @@ function Home() {
             Paste a URL. Get the whole visual identity.
           </h1>
           <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground">
-            CCSCloner reads a web page and returns everything you need to understand and
-            implement its visual identity — colours, typography, spacing, visual elements,
-            underlying code and structure — as an editable guide you can download.
+            Paste a URL. We pull the colours, typography, spacing, and code — then turn it into
+            a clean, editable guide you can download.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Button asChild size="lg">
