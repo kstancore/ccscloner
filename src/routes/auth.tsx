@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { Sparkles, Home } from "lucide-react";
+import { Home } from "lucide-react";
 import { toast } from "sonner";
+import { Logo } from "@/components/Logo";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
@@ -90,11 +91,8 @@ function AuthPage() {
   return (
     <div className="min-h-screen bg-soft-gradient">
       <header className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
-        <Link to="/" className="flex items-center gap-2">
-          <span className="grid size-8 place-items-center rounded-lg bg-hero-gradient text-primary-foreground">
-            <Sparkles className="size-4" />
-          </span>
-          <span className="font-display text-lg font-semibold">CCSCloner</span>
+        <Link to="/">
+          <Logo size="sm" />
         </Link>
 
         <Button asChild variant="ghost" size="sm">
