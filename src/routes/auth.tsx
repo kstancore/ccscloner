@@ -3,6 +3,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { Home } from "lucide-react";
 import { toast } from "sonner";
 import { Logo } from "@/components/Logo";
+import { StudyBackdrop } from "@/components/StudyBackdrop";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
@@ -119,7 +120,8 @@ function AuthPage() {
 
 
   return (
-    <div className="min-h-screen bg-soft-gradient">
+    <div className="relative min-h-screen bg-soft-gradient">
+      <StudyBackdrop />
       <header className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
         <Link to="/">
           <Logo size="sm" />

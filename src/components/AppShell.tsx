@@ -2,6 +2,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { LogOut, LayoutDashboard, UserRound, Home } from "lucide-react";
 import { Logo } from "@/components/Logo";
+import { StudyBackdrop } from "@/components/StudyBackdrop";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -54,7 +55,8 @@ export function AppShell({
   const initials = (profile?.nickname ?? profile?.email ?? "?").slice(0, 2).toUpperCase();
 
   return (
-    <div className="min-h-screen bg-soft-gradient">
+    <div className="relative min-h-screen bg-soft-gradient">
+      <StudyBackdrop />
       <header className="sticky top-0 z-30 border-b border-border/70 bg-background/85 backdrop-blur">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4">
           <Link to="/" className="flex items-center">
