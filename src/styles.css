@@ -182,3 +182,12 @@
 @utility shadow-lift {
   box-shadow: var(--shadow-lift);
 }
+
+@keyframes float-slow {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -14px; }
+}
+
+@utility animate-float-slow {
+  animation: float-slow 9s ease-in-out infinite;
+}
