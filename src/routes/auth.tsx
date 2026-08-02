@@ -34,13 +34,22 @@ function AuthPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
-  const [sent, setSent] = useState(false);
+
+  const routeAfterAuth = async (userId: string) => {
+    const { data } = await supabase
+      .from("profiles")
+      .select("onboarded")
+      .eq("id", userId)
+      .maybeSingle();
+    void navigate({ to: data?.onboarded ? "/workspace" : "/onboarding" });
+  };
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
-      if (data.session) void navigate({ to: "/workspace" });
+      if (data.session) void routeAfterAuth(data.session.user.id);
     });
-  }, [navigate]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const submit = async (mode: "signin" | "signup") => {
     const parsed = schema.safeParse({ email, password });
@@ -51,21 +60,39 @@ function AuthPage() {
     setBusy(true);
     try {
       if (mode === "signin") {
-        const { error } = await supabase.auth.signInWithPassword(parsed.data);
-        if (error) throw error;
-        void navigate({ to: "/workspace" });
+        const { data, error } = await supabase.auth.signInWithPassword(parsed.data);
+        if (error) {
+          throw new Error(
+            error.message.toLowerCase().includes("invalid login")
+              ? "Wrong email or password. If you're new, use the Sign up tab."
+              : error.message,
+          );
+        }
+        toast.success("Welcome back!");
+        await routeAfterAuth(data.user.id);
       } else {
         const { data, error } = await supabase.auth.signUp({
           ...parsed.data,
-          options: { emailRedirectTo: window.location.origin + "/onboarding" },
+          options: { emailRedirectTo: window.location.origin + "/auth" },
         });
-        if (error) throw error;
-        if (data.session) {
-          void navigate({ to: "/onboarding" });
-        } else {
-          setSent(true);
-          toast.success("Check your email to confirm your account.");
+        if (error) {
+          throw new Error(
+            error.message.toLowerCase().includes("already registered")
+              ? "That email already has an account. Use the Log in tab."
+              : error.message,
+          );
         }
+        // Auto-confirm is on, so a session is returned immediately. If it isn't
+        // (e.g. confirmation required), sign in explicitly.
+        let userId = data.session?.user.id ?? null;
+        if (!userId) {
+          const { data: signedIn, error: signInError } =
+            await supabase.auth.signInWithPassword(parsed.data);
+          if (signInError) throw signInError;
+          userId = signedIn.user.id;
+        }
+        toast.success("Account created!");
+        await routeAfterAuth(userId);
       }
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "Something went wrong");
@@ -77,7 +104,7 @@ function AuthPage() {
   const google = async () => {
     setBusy(true);
     const result = await lovable.auth.signInWithOAuth("google", {
-      redirect_uri: window.location.origin,
+      redirect_uri: window.location.origin + "/auth",
     });
     if (result.error) {
       setBusy(false);
@@ -85,8 +112,11 @@ function AuthPage() {
       return;
     }
     if (result.redirected) return;
-    void navigate({ to: "/workspace" });
+    const { data } = await supabase.auth.getUser();
+    setBusy(false);
+    if (data.user) await routeAfterAuth(data.user.id);
   };
+
 
   return (
     <div className="min-h-screen bg-soft-gradient">
@@ -149,11 +179,10 @@ function AuthPage() {
                   <Button className="w-full" disabled={busy} onClick={() => submit("signup")}>
                     {busy ? "Please wait…" : "Create account"}
                   </Button>
-                  {sent ? (
-                    <p className="mt-3 text-center text-xs text-muted-foreground">
-                      We sent a confirmation link to {email}.
-                    </p>
-                  ) : null}
+                  <p className="mt-3 text-center text-xs text-muted-foreground">
+                    No email confirmation needed — you'll go straight in.
+                  </p>
+
                 </TabsContent>
 
                 <div className="flex items-center gap-3 text-xs text-muted-foreground">
