@@ -179,11 +179,10 @@ function AuthPage() {
                   <Button className="w-full" disabled={busy} onClick={() => submit("signup")}>
                     {busy ? "Please wait…" : "Create account"}
                   </Button>
-                  {sent ? (
-                    <p className="mt-3 text-center text-xs text-muted-foreground">
-                      We sent a confirmation link to {email}.
-                    </p>
-                  ) : null}
+                  <p className="mt-3 text-center text-xs text-muted-foreground">
+                    No email confirmation needed — you'll go straight in.
+                  </p>
+
                 </TabsContent>
 
                 <div className="flex items-center gap-3 text-xs text-muted-foreground">
