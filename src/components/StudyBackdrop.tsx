@@ -61,8 +61,8 @@ export function StudyBackdrop() {
       {doodles.map(({ Icon, className, size, rotate, tone }, i) => (
         <Icon
           key={i}
-          strokeWidth={1}
-          className={`absolute ${className} ${tone} opacity-[0.13] animate-float-slow`}
+          strokeWidth={1.5}
+          className={`absolute ${className} ${tone} opacity-40 animate-float-slow drop-shadow-sm`}
           style={{
             width: size,
             height: size,
