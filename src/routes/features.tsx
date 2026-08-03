@@ -109,9 +109,11 @@ function FeaturesPage() {
             <Link to="/auth">Get started</Link>
           </Button>
         </div>
+        </div>
       </header>
 
-      <section className="bg-highlight px-4 py-16 text-highlight-foreground md:py-24">
+      <section className="bg-highlight/85 px-4 py-16 text-highlight-foreground md:py-24">
+
         <div className="mx-auto max-w-6xl">
           <span className="inline-flex items-center gap-2 rounded-full bg-destructive px-3 py-1 text-xs font-semibold text-destructive-foreground">
             What we extract
