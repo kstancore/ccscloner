@@ -27,7 +27,7 @@ export const Route = createFileRoute("/")({
 
 function Home() {
   return (
-    <div className="relative min-h-screen bg-soft-gradient">
+    <div className="relative min-h-screen">
       <StudyBackdrop />
       <header className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
         <Logo size="sm" />
