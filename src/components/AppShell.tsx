@@ -55,7 +55,7 @@ export function AppShell({
   const initials = (profile?.nickname ?? profile?.email ?? "?").slice(0, 2).toUpperCase();
 
   return (
-    <div className="relative min-h-screen bg-soft-gradient">
+    <div className="relative min-h-screen">
       <StudyBackdrop />
       <header className="sticky top-0 z-30 border-b border-border/70 bg-background/85 backdrop-blur">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4">

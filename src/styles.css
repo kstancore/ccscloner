@@ -104,10 +104,13 @@
     oklch(0.745 0.05 205.9) 55%,
     oklch(0.626 0.056 206.6) 100%
   );
+  /* office daylight: cool window light at the top, warm desk tone at the bottom */
   --gradient-soft: linear-gradient(
-    160deg,
-    oklch(0.985 0.004 179.7) 0%,
-    oklch(0.94 0.02 180) 100%
+    170deg,
+    oklch(0.99 0.006 200) 0%,
+    oklch(0.965 0.012 185) 38%,
+    oklch(0.945 0.018 120) 72%,
+    oklch(0.93 0.024 95) 100%
   );
   --shadow-soft: 0 1px 2px oklch(0.332 0.035 210.2 / 0.06),
     0 12px 32px -16px oklch(0.332 0.035 210.2 / 0.28);
