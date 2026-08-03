@@ -8,8 +8,10 @@ import {
   FileDown,
   ArrowRight,
   CheckCircle2,
+  Home as HomeIcon,
 } from "lucide-react";
 import { Logo } from "@/components/Logo";
+import { StudyBackdrop } from "@/components/StudyBackdrop";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -88,15 +90,19 @@ const steps = [
 
 function FeaturesPage() {
   return (
-    <div className="min-h-screen bg-background">
-      <header className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
+    <div className="relative min-h-screen">
+      <StudyBackdrop />
+      <header className="sticky top-0 z-30 border-b border-border/70 bg-background/85 px-4 backdrop-blur">
+        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between">
         <Link to="/">
           <Logo size="sm" />
         </Link>
 
         <div className="flex items-center gap-2">
           <Button asChild variant="ghost" size="sm">
-            <Link to="/">Home</Link>
+            <Link to="/">
+              <HomeIcon /> Home
+            </Link>
           </Button>
           <Button asChild variant="ghost" size="sm">
             <Link to="/auth">Log in</Link>
@@ -105,9 +111,11 @@ function FeaturesPage() {
             <Link to="/auth">Get started</Link>
           </Button>
         </div>
+        </div>
       </header>
 
-      <section className="bg-highlight px-4 py-16 text-highlight-foreground md:py-24">
+      <section className="bg-highlight/85 px-4 py-16 text-highlight-foreground md:py-24">
+
         <div className="mx-auto max-w-6xl">
           <span className="inline-flex items-center gap-2 rounded-full bg-destructive px-3 py-1 text-xs font-semibold text-destructive-foreground">
             What we extract
@@ -148,7 +156,7 @@ function FeaturesPage() {
         </div>
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {features.map((f) => (
-            <Card key={f.title} className="border-border/80 shadow-soft">
+            <Card key={f.title} className="border-border/80 bg-card/85 shadow-soft backdrop-blur-sm">
               <CardHeader>
                 <span className="grid size-10 place-items-center rounded-xl bg-highlight text-highlight-foreground">
                   <f.icon className="size-5" />
@@ -163,7 +171,7 @@ function FeaturesPage() {
         </div>
       </section>
 
-      <section className="bg-destructive px-4 py-16 text-destructive-foreground md:py-20">
+      <section className="bg-destructive/95 px-4 py-16 text-destructive-foreground md:py-20">
         <div className="mx-auto max-w-6xl">
           <h2 className="text-2xl font-semibold">How it works</h2>
           <p className="mt-2 max-w-2xl text-sm opacity-90">
