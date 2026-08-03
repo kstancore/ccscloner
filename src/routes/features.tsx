@@ -88,15 +88,19 @@ const steps = [
 
 function FeaturesPage() {
   return (
-    <div className="min-h-screen bg-background">
-      <header className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
+    <div className="relative min-h-screen">
+      <StudyBackdrop />
+      <header className="sticky top-0 z-30 border-b border-border/70 bg-background/85 px-4 backdrop-blur">
+        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between">
         <Link to="/">
           <Logo size="sm" />
         </Link>
 
         <div className="flex items-center gap-2">
           <Button asChild variant="ghost" size="sm">
-            <Link to="/">Home</Link>
+            <Link to="/">
+              <HomeIcon /> Home
+            </Link>
           </Button>
           <Button asChild variant="ghost" size="sm">
             <Link to="/auth">Log in</Link>
