@@ -81,7 +81,7 @@ export function StudyBackdrop() {
         <Icon
           key={i}
           strokeWidth={1.5}
-          className={`absolute ${className} ${tone} opacity-35 animate-float-slow drop-shadow-sm`}
+          className={`absolute ${className} ${tone} opacity-60 animate-float-slow drop-shadow-sm`}
           style={{
             width: size,
             height: size,
