@@ -156,7 +156,7 @@ function FeaturesPage() {
         </div>
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {features.map((f) => (
-            <Card key={f.title} className="border-border/80 shadow-soft">
+            <Card key={f.title} className="border-border/80 bg-card/85 shadow-soft backdrop-blur-sm">
               <CardHeader>
                 <span className="grid size-10 place-items-center rounded-xl bg-highlight text-highlight-foreground">
                   <f.icon className="size-5" />
@@ -171,7 +171,7 @@ function FeaturesPage() {
         </div>
       </section>
 
-      <section className="bg-destructive px-4 py-16 text-destructive-foreground md:py-20">
+      <section className="bg-destructive/95 px-4 py-16 text-destructive-foreground md:py-20">
         <div className="mx-auto max-w-6xl">
           <h2 className="text-2xl font-semibold">How it works</h2>
           <p className="mt-2 max-w-2xl text-sm opacity-90">
