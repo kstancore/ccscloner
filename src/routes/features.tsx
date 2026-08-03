@@ -8,8 +8,10 @@ import {
   FileDown,
   ArrowRight,
   CheckCircle2,
+  Home as HomeIcon,
 } from "lucide-react";
 import { Logo } from "@/components/Logo";
+import { StudyBackdrop } from "@/components/StudyBackdrop";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
