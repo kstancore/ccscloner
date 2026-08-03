@@ -38,7 +38,7 @@ const doodles: Doodle[] = [
  */
 export function StudyBackdrop() {
   return (
-    <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+    <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-soft-gradient">
       {/* ambient office light washes */}
       <div className="absolute -left-32 -top-32 size-[26rem] rounded-full bg-primary/20 blur-3xl" />
       <div className="absolute -right-28 top-24 size-[22rem] rounded-full bg-highlight/35 blur-3xl" />
