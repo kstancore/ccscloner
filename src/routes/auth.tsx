@@ -173,17 +173,15 @@ function AuthPage() {
                       placeholder="••••••••"
                       className="pr-10"
                     />
-                    <Button
+                    <button
                       type="button"
-                      variant="ghost"
-                      size="icon"
                       aria-label={showPassword ? "Hide password" : "Show password"}
                       aria-pressed={showPassword}
                       onClick={() => setShowPassword((s) => !s)}
-                      className="absolute right-0 top-0 h-full px-3 text-muted-foreground hover:text-foreground"
+                      className="absolute right-1 top-1/2 z-10 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-md border border-border bg-background text-foreground shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
                     >
                       {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                    </Button>
+                    </button>
                   </div>
                 </div>
 
