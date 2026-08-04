@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { Home } from "lucide-react";
+import { Eye, EyeOff, Home } from "lucide-react";
 import { toast } from "sonner";
 import { Logo } from "@/components/Logo";
 import { StudyBackdrop } from "@/components/StudyBackdrop";
