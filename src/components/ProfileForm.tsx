@@ -26,6 +26,39 @@ const schema = z.object({
   country: z.string().trim().min(1, { message: "Country is required" }).max(80),
 });
 
+const countries = [
+  "Australia",
+  "Canada",
+  "France",
+  "Germany",
+  "India",
+  "Italy",
+  "Japan",
+  "Netherlands",
+  "Singapore",
+  "Spain",
+  "United Arab Emirates",
+  "United Kingdom",
+  "United States",
+];
+
+const citiesByCountry: Record<string, string[]> = {
+  Australia: ["Melbourne", "Sydney", "Brisbane", "Perth", "Adelaide"],
+  Canada: ["Toronto", "Vancouver", "Montreal", "Calgary", "Ottawa"],
+  France: ["Paris", "Lyon", "Marseille", "Toulouse", "Nice"],
+  Germany: ["Berlin", "Munich", "Hamburg", "Cologne", "Frankfurt"],
+  India: ["Mumbai", "Delhi", "Bangalore", "Hyderabad", "Chennai", "Pune", "Kolkata"],
+  Italy: ["Rome", "Milan", "Naples", "Turin", "Florence"],
+  Japan: ["Tokyo", "Osaka", "Yokohama", "Nagoya", "Sapporo"],
+  Netherlands: ["Amsterdam", "Rotterdam", "The Hague", "Utrecht", "Eindhoven"],
+  Singapore: ["Singapore"],
+  Spain: ["Madrid", "Barcelona", "Valencia", "Seville", "Bilbao"],
+  "United Arab Emirates": ["Dubai", "Abu Dhabi", "Sharjah", "Ajman"],
+  "United Kingdom": ["London", "Manchester", "Birmingham", "Glasgow", "Edinburgh"],
+  "United States": ["New York", "Los Angeles", "Chicago", "San Francisco", "Austin", "Seattle", "Boston"],
+};
+
+
 export function ProfileForm({
   profile,
   avatar,
