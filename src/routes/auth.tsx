@@ -170,7 +170,7 @@ function AuthPage() {
                       value={password}
                       maxLength={72}
                       onChange={(e) => setPassword(e.target.value)}
-                      placeholder="••••••••"
+                      placeholder="Password"
                       className="pr-10"
                     />
                     <button
