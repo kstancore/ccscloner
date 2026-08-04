@@ -174,21 +174,40 @@ export function ProfileForm({
             placeholder="Enter workspace or institution"
           />
         </Field>
-        <Field label="City">
-          <Input
-            value={form.city}
-            maxLength={80}
-            onChange={(e) => setForm({ ...form, city: e.target.value })}
-            placeholder="Enter your city"
-          />
-        </Field>
         <Field label="Country">
-          <Input
+          <Select
             value={form.country}
-            maxLength={80}
-            onChange={(e) => setForm({ ...form, country: e.target.value })}
-            placeholder="Enter your country"
-          />
+            onValueChange={(v) => setForm({ ...form, country: v, city: "" })}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Select your country" />
+            </SelectTrigger>
+            <SelectContent className="max-h-72">
+              {countries.map((c) => (
+                <SelectItem key={c} value={c}>
+                  {c}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </Field>
+        <Field label="City">
+          <Select
+            value={form.city}
+            onValueChange={(v) => setForm({ ...form, city: v })}
+            disabled={!form.country}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder={form.country ? "Select your city" : "Choose a country first"} />
+            </SelectTrigger>
+            <SelectContent className="max-h-72">
+              {(citiesByCountry[form.country] ?? []).map((c) => (
+                <SelectItem key={c} value={c}>
+                  {c}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </Field>
       </div>
 
