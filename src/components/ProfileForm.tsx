@@ -43,19 +43,56 @@ const countries = [
 ];
 
 const citiesByCountry: Record<string, string[]> = {
-  Australia: ["Melbourne", "Sydney", "Brisbane", "Perth", "Adelaide"],
-  Canada: ["Toronto", "Vancouver", "Montreal", "Calgary", "Ottawa"],
-  France: ["Paris", "Lyon", "Marseille", "Toulouse", "Nice"],
-  Germany: ["Berlin", "Munich", "Hamburg", "Cologne", "Frankfurt"],
-  India: ["Mumbai", "Delhi", "Bangalore", "Hyderabad", "Chennai", "Pune", "Kolkata"],
-  Italy: ["Rome", "Milan", "Naples", "Turin", "Florence"],
-  Japan: ["Tokyo", "Osaka", "Yokohama", "Nagoya", "Sapporo"],
-  Netherlands: ["Amsterdam", "Rotterdam", "The Hague", "Utrecht", "Eindhoven"],
+  Australia: [
+    "Adelaide", "Brisbane", "Canberra", "Darwin", "Gold Coast", "Hobart",
+    "Melbourne", "Newcastle", "Perth", "Sydney", "Wollongong"
+  ],
+  Canada: [
+    "Calgary", "Edmonton", "Halifax", "Mississauga", "Montreal", "Ottawa",
+    "Quebec City", "Toronto", "Vancouver", "Victoria", "Winnipeg"
+  ],
+  France: [
+    "Bordeaux", "Lille", "Lyon", "Marseille", "Montpellier", "Nantes",
+    "Nice", "Paris", "Strasbourg", "Toulouse"
+  ],
+  Germany: [
+    "Berlin", "Bremen", "Cologne", "Dortmund", "Dresden", "Düsseldorf",
+    "Frankfurt", "Hamburg", "Leipzig", "Munich", "Stuttgart"
+  ],
+  India: [
+    "Ahmedabad", "Bangalore", "Chennai", "Delhi", "Hyderabad", "Indore",
+    "Jaipur", "Kolkata", "Lucknow", "Mumbai", "Nagpur", "Pune", "Surat"
+  ],
+  Italy: [
+    "Bari", "Bologna", "Catania", "Florence", "Genoa", "Milan",
+    "Naples", "Palermo", "Rome", "Turin", "Venice"
+  ],
+  Japan: [
+    "Fukuoka", "Hiroshima", "Kawasaki", "Kobe", "Kyoto", "Nagoya",
+    "Osaka", "Sapporo", "Sendai", "Tokyo", "Yokohama"
+  ],
+  Netherlands: [
+    "Amsterdam", "Eindhoven", "Groningen", "Maastricht", "Rotterdam",
+    "The Hague", "Tilburg", "Utrecht"
+  ],
   Singapore: ["Singapore"],
-  Spain: ["Madrid", "Barcelona", "Valencia", "Seville", "Bilbao"],
-  "United Arab Emirates": ["Dubai", "Abu Dhabi", "Sharjah", "Ajman"],
-  "United Kingdom": ["London", "Manchester", "Birmingham", "Glasgow", "Edinburgh"],
-  "United States": ["New York", "Los Angeles", "Chicago", "San Francisco", "Austin", "Seattle", "Boston"],
+  Spain: [
+    "Barcelona", "Bilbao", "Las Palmas", "Madrid", "Malaga", "Murcia",
+    "Palma", "Seville", "Valencia", "Zaragoza"
+  ],
+  "United Arab Emirates": [
+    "Abu Dhabi", "Ajman", "Al Ain", "Dubai", "Fujairah", "Ras Al Khaimah",
+    "Sharjah"
+  ],
+  "United Kingdom": [
+    "Belfast", "Birmingham", "Bristol", "Cardiff", "Edinburgh", "Glasgow",
+    "Leeds", "Liverpool", "London", "Manchester", "Newcastle", "Sheffield"
+  ],
+  "United States": [
+    "Atlanta", "Austin", "Boston", "Chicago", "Dallas", "Denver",
+    "Detroit", "Houston", "Los Angeles", "Miami", "New York", "Phoenix",
+    "Portland", "San Diego", "San Francisco", "Seattle", "Washington D.C."
+  ],
 };
 
 
