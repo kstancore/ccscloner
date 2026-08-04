@@ -138,7 +138,7 @@ export function ProfileForm({
             value={form.nickname}
             maxLength={40}
             onChange={(e) => setForm({ ...form, nickname: e.target.value })}
-            placeholder="Aria"
+            placeholder="Enter your nickname"
           />
         </Field>
         <Field label="Username">
@@ -146,7 +146,7 @@ export function ProfileForm({
             value={form.username}
             maxLength={30}
             onChange={(e) => setForm({ ...form, username: e.target.value })}
-            placeholder="aria.designs"
+            placeholder="Enter your username"
           />
         </Field>
         <Field label="Email" hint="From your sign-in — not editable.">
@@ -171,7 +171,7 @@ export function ProfileForm({
             value={form.organization}
             maxLength={120}
             onChange={(e) => setForm({ ...form, organization: e.target.value })}
-            placeholder="Studio name or university"
+            placeholder="Enter workspace or institution"
           />
         </Field>
         <Field label="City">
@@ -179,7 +179,7 @@ export function ProfileForm({
             value={form.city}
             maxLength={80}
             onChange={(e) => setForm({ ...form, city: e.target.value })}
-            placeholder="Chennai"
+            placeholder="Enter your city"
           />
         </Field>
         <Field label="Country">
@@ -187,7 +187,7 @@ export function ProfileForm({
             value={form.country}
             maxLength={80}
             onChange={(e) => setForm({ ...form, country: e.target.value })}
-            placeholder="India"
+            placeholder="Enter your country"
           />
         </Field>
       </div>
