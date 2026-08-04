@@ -26,6 +26,39 @@ const schema = z.object({
   country: z.string().trim().min(1, { message: "Country is required" }).max(80),
 });
 
+const countries = [
+  "Australia",
+  "Canada",
+  "France",
+  "Germany",
+  "India",
+  "Italy",
+  "Japan",
+  "Netherlands",
+  "Singapore",
+  "Spain",
+  "United Arab Emirates",
+  "United Kingdom",
+  "United States",
+];
+
+const citiesByCountry: Record<string, string[]> = {
+  Australia: ["Melbourne", "Sydney", "Brisbane", "Perth", "Adelaide"],
+  Canada: ["Toronto", "Vancouver", "Montreal", "Calgary", "Ottawa"],
+  France: ["Paris", "Lyon", "Marseille", "Toulouse", "Nice"],
+  Germany: ["Berlin", "Munich", "Hamburg", "Cologne", "Frankfurt"],
+  India: ["Mumbai", "Delhi", "Bangalore", "Hyderabad", "Chennai", "Pune", "Kolkata"],
+  Italy: ["Rome", "Milan", "Naples", "Turin", "Florence"],
+  Japan: ["Tokyo", "Osaka", "Yokohama", "Nagoya", "Sapporo"],
+  Netherlands: ["Amsterdam", "Rotterdam", "The Hague", "Utrecht", "Eindhoven"],
+  Singapore: ["Singapore"],
+  Spain: ["Madrid", "Barcelona", "Valencia", "Seville", "Bilbao"],
+  "United Arab Emirates": ["Dubai", "Abu Dhabi", "Sharjah", "Ajman"],
+  "United Kingdom": ["London", "Manchester", "Birmingham", "Glasgow", "Edinburgh"],
+  "United States": ["New York", "Los Angeles", "Chicago", "San Francisco", "Austin", "Seattle", "Boston"],
+};
+
+
 export function ProfileForm({
   profile,
   avatar,
@@ -174,21 +207,40 @@ export function ProfileForm({
             placeholder="Enter workspace or institution"
           />
         </Field>
-        <Field label="City">
-          <Input
-            value={form.city}
-            maxLength={80}
-            onChange={(e) => setForm({ ...form, city: e.target.value })}
-            placeholder="Enter your city"
-          />
-        </Field>
         <Field label="Country">
-          <Input
+          <Select
             value={form.country}
-            maxLength={80}
-            onChange={(e) => setForm({ ...form, country: e.target.value })}
-            placeholder="Enter your country"
-          />
+            onValueChange={(v) => setForm({ ...form, country: v, city: "" })}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Select your country" />
+            </SelectTrigger>
+            <SelectContent className="max-h-72">
+              {countries.map((c) => (
+                <SelectItem key={c} value={c}>
+                  {c}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </Field>
+        <Field label="City">
+          <Select
+            value={form.city}
+            onValueChange={(v) => setForm({ ...form, city: v })}
+            disabled={!form.country}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder={form.country ? "Select your city" : "Choose a country first"} />
+            </SelectTrigger>
+            <SelectContent className="max-h-72">
+              {(citiesByCountry[form.country] ?? []).map((c) => (
+                <SelectItem key={c} value={c}>
+                  {c}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </Field>
       </div>
 
