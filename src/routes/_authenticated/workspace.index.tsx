@@ -67,7 +67,7 @@ function Workspace() {
         <div className="space-y-8">
           <div>
             <h1 className="text-3xl font-semibold">
-              Hey {profile?.nickname ?? "there"} 👋
+              Hey {profile?.nickname ?? "there"}&nbsp;!
             </h1>
           </div>
 
