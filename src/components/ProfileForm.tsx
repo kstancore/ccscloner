@@ -44,54 +44,165 @@ const countries = [
 
 const citiesByCountry: Record<string, string[]> = {
   Australia: [
-    "Adelaide", "Brisbane", "Canberra", "Darwin", "Gold Coast", "Hobart",
-    "Melbourne", "Newcastle", "Perth", "Sydney", "Wollongong"
+    "Adelaide", "Albury", "Alice Springs", "Armidale", "Ballarat", "Bathurst",
+    "Bendigo", "Brisbane", "Broome", "Bundaberg", "Burnie", "Cairns",
+    "Canberra", "Coffs Harbour", "Dandenong", "Darwin", "Devonport", "Dubbo",
+    "Geelong", "Geraldton", "Gladstone", "Gold Coast", "Gosford", "Goulburn",
+    "Hobart", "Ipswich", "Kalgoorlie", "Katoomba", "Launceston", "Lismore",
+    "Mackay", "Maitland", "Mandurah", "Melbourne", "Mildura", "Mount Gambier",
+    "Newcastle", "Nowra", "Orange", "Perth", "Port Macquarie", "Rockhampton",
+    "Shepparton", "Sunshine Coast", "Sydney", "Tamworth", "Toowoomba",
+    "Townsville", "Wagga Wagga", "Warrnambool", "Whyalla", "Wollongong"
   ],
   Canada: [
-    "Calgary", "Edmonton", "Halifax", "Mississauga", "Montreal", "Ottawa",
-    "Quebec City", "Toronto", "Vancouver", "Victoria", "Winnipeg"
+    "Barrie", "Belleville", "Brampton", "Brandon", "Brantford", "Burlington",
+    "Burnaby", "Calgary", "Cambridge", "Cape Breton", "Chatham-Kent", "Chilliwack",
+    "Coquitlam", "Drummondville", "Edmonton", "Fredericton", "Gatineau",
+    "Greater Sudbury", "Guelph", "Halifax", "Hamilton", "Kamloops", "Kelowna",
+    "Kingston", "Kitchener", "Langley", "Laval", "Leamington", "London",
+    "Longueuil", "Markham", "Medicine Hat", "Mississauga", "Moncton", "Montreal",
+    "Moose Jaw", "Nanaimo", "New Westminster", "Oakville", "Oshawa", "Ottawa",
+    "Peterborough", "Prince George", "Quebec City", "Red Deer", "Regina",
+    "Repentigny", "Richmond", "Richmond Hill", "Saguenay", "Saskatoon",
+    "Sault Ste. Marie", "Sherbrooke", "St. Catharines", "St. John's", "Surrey",
+    "Terrebonne", "Thunder Bay", "Toronto", "Trois-Rivières", "Vancouver",
+    "Vaughan", "Victoria", "Waterloo", "Whitby", "Windsor", "Winnipeg"
   ],
   France: [
-    "Bordeaux", "Lille", "Lyon", "Marseille", "Montpellier", "Nantes",
-    "Nice", "Paris", "Strasbourg", "Toulouse"
+    "Aix-en-Provence", "Ajaccio", "Amiens", "Angers", "Angoulême", "Annecy",
+    "Antibes", "Arles", "Avignon", "Bayonne", "Besançon", "Béziers", "Blois",
+    "Bordeaux", "Boulogne-Billancourt", "Brest", "Caen", "Calais", "Cannes",
+    "Chambéry", "Charleville-Mézières", "Châteauroux", "Cherbourg", "Clermont-Ferrand",
+    "Colmar", "Compiègne", "Dijon", "Dunkirk", "Évry", "Grenoble", "La Rochelle",
+    "Le Havre", "Le Mans", "Lille", "Limoges", "Lorient", "Lyon", "Mâcon",
+    "Marseille", "Metz", "Montpellier", "Mulhouse", "Nancy", "Nanterre",
+    "Nantes", "Nice", "Nîmes", "Orléans", "Paris", "Pau", "Perpignan", "Poitiers",
+    "Reims", "Rennes", "Roubaix", "Rouen", "Saint-Denis", "Saint-Étienne",
+    "Saint-Nazaire", "Strasbourg", "Toulon", "Toulouse", "Tours", "Troyes",
+    "Valence", "Villeurbanne"
   ],
   Germany: [
-    "Berlin", "Bremen", "Cologne", "Dortmund", "Dresden", "Düsseldorf",
-    "Frankfurt", "Hamburg", "Leipzig", "Munich", "Stuttgart"
+    "Aachen", "Augsburg", "Bamberg", "Bayreuth", "Berlin", "Bielefeld",
+    "Bochum", "Bonn", "Bottrop", "Brandenburg", "Braunschweig", "Bremen",
+    "Bremerhaven", "Chemnitz", "Cologne", "Cottbus", "Darmstadt", "Dortmund",
+    "Dresden", "Duisburg", "Düsseldorf", "Erfurt", "Erlangen", "Essen",
+    "Frankfurt", "Freiburg", "Fürth", "Gelsenkirchen", "Gera", "Göttingen",
+    "Hagen", "Halle", "Hamburg", "Hamm", "Hanover", "Heidelberg", "Herne",
+    "Hildesheim", "Ingolstadt", "Jena", "Karlsruhe", "Kassel", "Kiel",
+    "Koblenz", "Krefeld", "Leipzig", "Leverkusen", "Lübeck", "Ludwigshafen",
+    "Magdeburg", "Mainz", "Mannheim", "Marl", "Moers", "Mönchengladbach",
+    "Munich", "Münster", "Neuss", "Nuremberg", "Oberhausen", "Offenbach",
+    "Oldenburg", "Osnabrück", "Paderborn", "Pforzheim", "Potsdam", "Recklinghausen",
+    "Regensburg", "Remscheid", "Reutlingen", "Rostock", "Saarbrücken", "Salzgitter",
+    "Siegen", "Solingen", "Stuttgart", "Trier", "Ulm", "Wiesbaden", "Wolfsburg",
+    "Wuppertal", "Würzburg"
   ],
   India: [
-    "Ahmedabad", "Bangalore", "Chennai", "Delhi", "Hyderabad", "Indore",
-    "Jaipur", "Kolkata", "Lucknow", "Mumbai", "Nagpur", "Pune", "Surat"
+    "Agra", "Ahmedabad", "Ahmednagar", "Ajmer", "Akola", "Aligarh", "Allahabad",
+    "Ambala", "Amritsar", "Anand", "Asansol", "Aurangabad", "Bangalore",
+    "Bareilly", "Belgaum", "Bhavnagar", "Bhilai", "Bhopal", "Bhubaneswar",
+    "Bikaner", "Bilaspur", "Bokaro", "Chandigarh", "Chennai", "Coimbatore",
+    "Cuttack", "Dehradun", "Delhi", "Dhanbad", "Durgapur", "Erode", "Faridabad",
+    "Firozabad", "Ghaziabad", "Goa", "Gorakhpur", "Gulbarga", "Guntur", "Gurgaon",
+    "Guwahati", "Gwalior", "Haridwar", "Hisar", "Hubli", "Hyderabad", "Imphal",
+    "Indore", "Jabalpur", "Jaipur", "Jalandhar", "Jammu", "Jamnagar", "Jamshedpur",
+    "Jhansi", "Jodhpur", "Kanpur", "Kanyakumari", "Kochi", "Kolhapur", "Kolkata",
+    "Kota", "Kottayam", "Kozhikode", "Lucknow", "Ludhiana", "Madurai", "Mangalore",
+    "Mathura", "Meerut", "Moradabad", "Mumbai", "Mysore", "Nagpur", "Nashik",
+    "Navi Mumbai", "Nellore", "Noida", "Patna", "Pondicherry", "Pune", "Raipur",
+    "Rajkot", "Ranchi", "Rourkela", "Salem", "Shillong", "Shimla", "Siliguri",
+    "Solapur", "Srinagar", "Surat", "Thane", "Thrissur", "Tiruchirappalli",
+    "Tirupati", "Trivandrum", "Udaipur", "Vadodara", "Varanasi", "Vasai",
+    "Vijayawada", "Visakhapatnam", "Warangal"
   ],
   Italy: [
-    "Bari", "Bologna", "Catania", "Florence", "Genoa", "Milan",
-    "Naples", "Palermo", "Rome", "Turin", "Venice"
+    "Alessandria", "Ancona", "Andria", "Arezzo", "Asti", "Bari", "Barletta",
+    "Bergamo", "Bologna", "Bolzano", "Brescia", "Brindisi", "Cagliari",
+    "Caltanissetta", "Caserta", "Catania", "Catanzaro", "Como", "Cremona",
+    "Ferrara", "Florence", "Foggia", "Forlì", "Genoa", "Giugliano", "La Spezia",
+    "Lecce", "Lecco", "Livorno", "Lucca", "Marsala", "Messina", "Milan",
+    "Modena", "Monza", "Naples", "Novara", "Padua", "Palermo", "Parma",
+    "Pavia", "Perugia", "Pescara", "Piacenza", "Pisa", "Pistoia", "Ragusa",
+    "Ravenna", "Reggio Calabria", "Reggio Emilia", "Rimini", "Rome", "Salerno",
+    "Sassari", "Siracusa", "Sondrio", "Taranto", "Terni", "Trento", "Trieste",
+    "Turin", "Udine", "Varese", "Venice", "Verona", "Vicenza"
   ],
   Japan: [
-    "Fukuoka", "Hiroshima", "Kawasaki", "Kobe", "Kyoto", "Nagoya",
-    "Osaka", "Sapporo", "Sendai", "Tokyo", "Yokohama"
+    "Akita", "Amagasaki", "Aomori", "Asahikawa", "Chiba", "Fuji", "Fujisawa",
+    "Fukui", "Fukuoka", "Fukushima", "Funabashi", "Gifu", "Hachioji", "Hakodate",
+    "Hamamatsu", "Higashiosaka", "Himeji", "Hiroshima", "Ichikawa", "Ichinomiya",
+    "Iwaki", "Kagoshima", "Kakogawa", "Kanazawa", "Kashiwa", "Kasugai", "Kawagoe",
+    "Kawaguchi", "Kawasaki", "Kitakyushu", "Kobe", "Kochi", "Koriyama", "Koshigaya",
+    "Kumamoto", "Kurashiki", "Kure", "Kyoto", "Maebashi", "Matsudo", "Matsumoto",
+    "Matsuyama", "Miyazaki", "Morioka", "Nagano", "Nagasaki", "Nagoya", "Nara",
+    "Neyagawa", "Niigata", "Nishinomiya", "Oita", "Okayama", "Okinawa", "Osaka",
+    "Otsu", "Sagamihara", "Saitama", "Sakai", "Sapporo", "Sendai", "Shimonoseki",
+    "Shizuoka", "Suita", "Takamatsu", "Takasaki", "Tokorozawa", "Tokushima",
+    "Tokyo", "Toyama", "Toyohashi", "Toyonaka", "Toyota", "Utsunomiya", "Wakayama",
+    "Yao", "Yokkaichi", "Yokohama", "Yokosuka"
   ],
   Netherlands: [
-    "Amsterdam", "Eindhoven", "Groningen", "Maastricht", "Rotterdam",
-    "The Hague", "Tilburg", "Utrecht"
+    "Alkmaar", "Almere", "Amersfoort", "Amstelveen", "Amsterdam", "Apeldoorn",
+    "Arnhem", "Assen", "Breda", "Delft", "Den Bosch", "Deventer", "Dordrecht",
+    "Ede", "Eindhoven", "Emmen", "Enschede", "Gouda", "Groningen", "Haarlem",
+    "Haarlemmermeer", "Heerlen", "Helmond", "Hengelo", "Hilversum", "Hoofddorp",
+    "Leeuwarden", "Leiden", "Lelystad", "Maastricht", "Nijmegen", "Oss",
+    "Roosendaal", "Rotterdam", "Schiedam", "Sittard-Geleen", "Spijkenisse",
+    "The Hague", "Tilburg", "Utrecht", "Veenendaal", "Venlo", "Westland",
+    "Zaandam", "Zaanstad", "Zoetermeer", "Zwolle"
   ],
   Singapore: ["Singapore"],
   Spain: [
-    "Barcelona", "Bilbao", "Las Palmas", "Madrid", "Malaga", "Murcia",
-    "Palma", "Seville", "Valencia", "Zaragoza"
+    "A Coruña", "Albacete", "Alcala de Henares", "Alcobendas", "Alicante",
+    "Almería", "Avilés", "Badajoz", "Badalona", "Barcelona", "Bilbao", "Burgos",
+    "Cádiz", "Cartagena", "Castellón", "Chiclana", "Cordoba", "Coslada",
+    "Cuenca", "Elche", "Ferrol", "Fuenlabrada", "Gandia", "Getafe", "Gijón",
+    "Girona", "Granada", "Guadalajara", "Huelva", "Ibiza", "Jaén", "Jerez",
+    "La Laguna", "Las Palmas", "Leganés", "León", "Lleida", "Logroño", "Lugo",
+    "Madrid", "Málaga", "Marbella", "Mataró", "Murcia", "Ourense", "Oviedo",
+    "Palencia", "Palma", "Pamplona", "Pontevedra", "Reus", "Sabadell", "Salamanca",
+    "San Cristóbal", "San Sebastián", "Santander", "Santa Cruz", "Santiago",
+    "Seville", "Tarragona", "Terrassa", "Toledo", "Torrevieja", "Valencia",
+    "Valladolid", "Vigo", "Vitoria-Gasteiz", "Zaragoza"
   ],
   "United Arab Emirates": [
-    "Abu Dhabi", "Ajman", "Al Ain", "Dubai", "Fujairah", "Ras Al Khaimah",
-    "Sharjah"
+    "Abu Dhabi", "Ajman", "Al Ain", "Dubai", "Fujairah", "Kalba", "Khor Fakkan",
+    "Ras Al Khaimah", "Sharjah", "Umm Al Quwain"
   ],
   "United Kingdom": [
-    "Belfast", "Birmingham", "Bristol", "Cardiff", "Edinburgh", "Glasgow",
-    "Leeds", "Liverpool", "London", "Manchester", "Newcastle", "Sheffield"
+    "Aberdeen", "Basildon", "Belfast", "Birmingham", "Blackburn", "Blackpool",
+    "Bolton", "Bournemouth", "Bradford", "Brighton", "Bristol", "Burnley",
+    "Cambridge", "Cardiff", "Carlisle", "Chelmsford", "Chester", "Coventry",
+    "Crawley", "Derby", "Doncaster", "Dudley", "Dundee", "Eastbourne",
+    "Edinburgh", "Exeter", "Gateshead", "Glasgow", "Gloucester", "Huddersfield",
+    "Hull", "Ipswich", "Lancaster", "Leeds", "Leicester", "Liverpool", "London",
+    "Luton", "Maidstone", "Manchester", "Middlesbrough", "Milton Keynes",
+    "Newcastle", "Newport", "Northampton", "Norwich", "Nottingham", "Oldham",
+    "Oxford", "Peterborough", "Plymouth", "Poole", "Portsmouth", "Preston",
+    "Reading", "Rochdale", "Salford", "Sheffield", "Slough", "Solihull",
+    "Southampton", "Southend", "Southport", "St Albans", "Stoke-on-Trent",
+    "Sunderland", "Swansea", "Swindon", "Telford", "Wakefield", "Warrington",
+    "West Bromwich", "Wigan", "Wolverhampton", "Worcester", "York"
   ],
   "United States": [
-    "Atlanta", "Austin", "Boston", "Chicago", "Dallas", "Denver",
-    "Detroit", "Houston", "Los Angeles", "Miami", "New York", "Phoenix",
-    "Portland", "San Diego", "San Francisco", "Seattle", "Washington D.C."
+    "Akron", "Albuquerque", "Anaheim", "Anchorage", "Arlington", "Atlanta",
+    "Aurora", "Austin", "Bakersfield", "Baltimore", "Baton Rouge", "Birmingham",
+    "Boise", "Boston", "Buffalo", "Chandler", "Charlotte", "Chattanooga",
+    "Chesapeake", "Chicago", "Chula Vista", "Cincinnati", "Cleveland", "Colorado Springs",
+    "Columbus", "Corpus Christi", "Dallas", "Denver", "Des Moines", "Detroit",
+    "Durham", "El Paso", "Fort Wayne", "Fort Worth", "Fremont", "Fresno",
+    "Garland", "Gilbert", "Glendale", "Greensboro", "Henderson", "Honolulu",
+    "Houston", "Indianapolis", "Irvine", "Irving", "Jackson", "Jacksonville",
+    "Jersey City", "Kansas City", "Knoxville", "Laredo", "Las Vegas", "Lexington",
+    "Lincoln", "Long Beach", "Los Angeles", "Louisville", "Lubbock", "Madison",
+    "Memphis", "Mesa", "Miami", "Milwaukee", "Minneapolis", "Nashville", "New Orleans",
+    "New York", "Newark", "Norfolk", "Oakland", "Oklahoma City", "Omaha",
+    "Orlando", "Philadelphia", "Phoenix", "Pittsburgh", "Plano", "Portland",
+    "Raleigh", "Reno", "Richmond", "Riverside", "Rochester", "Sacramento",
+    "Salt Lake City", "San Antonio", "San Diego", "San Francisco", "San Jose",
+    "Santa Ana", "Scottsdale", "Seattle", "St. Louis", "St. Paul", "St. Petersburg",
+    "Stockton", "Tampa", "Toledo", "Tucson", "Tulsa", "Virginia Beach",
+    "Washington D.C.", "Wichita", "Winston-Salem"
   ],
 };
 
