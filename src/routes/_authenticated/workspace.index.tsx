@@ -69,9 +69,6 @@ function Workspace() {
             <h1 className="text-3xl font-semibold">
               Hey {profile?.nickname ?? "there"} 👋
             </h1>
-            <p className="mt-2 text-sm text-muted-foreground">
-              Paste any public web page below and we'll document its entire visual identity.
-            </p>
           </div>
 
           <Card className="shadow-lift">
