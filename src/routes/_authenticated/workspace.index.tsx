@@ -76,8 +76,8 @@ function Workspace() {
 
           <Card className="shadow-lift">
             <CardHeader>
-              <CardTitle className="text-base">New extraction</CardTitle>
-              <CardDescription>Colours, typography, spacing, code, structure and guides.</CardDescription>
+              <CardTitle className="text-base">Clone a website</CardTitle>
+              <CardDescription>Paste a public URL to capture its colours, typography, spacing, and code.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-5">
               <div className="relative">
