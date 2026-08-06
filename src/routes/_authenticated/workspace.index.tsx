@@ -77,8 +77,7 @@ function Workspace() {
       {({ profile }) => (
         <div className="space-y-10">
           {/* Welcome header */}
-          <div className="relative overflow-hidden rounded-3xl border border-border bg-card/80 p-8 shadow-soft backdrop-blur-sm">
-            <div className="absolute -right-8 -top-8 size-40 rounded-full bg-primary/10 blur-3xl" />
+          <div className="relative overflow-hidden rounded-3xl border border-border bg-card/90 p-8 shadow-soft">
             <div className="absolute bottom-0 left-0 h-1 w-full bg-gradient-to-r from-primary via-mint to-highlight" />
             <div className="relative flex flex-col gap-2">
               <h1 className="text-4xl font-semibold tracking-tight">
