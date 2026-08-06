@@ -92,7 +92,7 @@ function FeaturesPage() {
   return (
     <div className="relative min-h-screen">
       <StudyBackdrop />
-      <header className="sticky top-0 z-30 border-b border-border/70 bg-background/85 px-4 backdrop-blur">
+      <header className="sticky top-0 z-30 border-b border-border/70 bg-background/95 px-4">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between">
         <Link to="/">
           <Logo size="sm" />
@@ -156,7 +156,7 @@ function FeaturesPage() {
         </div>
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {features.map((f) => (
-            <Card key={f.title} className="border-border/80 bg-card/85 shadow-soft backdrop-blur-sm">
+            <Card key={f.title} className="border-border/80 bg-card/90 shadow-soft">
               <CardHeader>
                 <span className="grid size-10 place-items-center rounded-xl bg-highlight text-highlight-foreground">
                   <f.icon className="size-5" />
@@ -181,7 +181,7 @@ function FeaturesPage() {
             {steps.map(({ step, title, body }) => (
               <div
                 key={step}
-                className="rounded-2xl bg-destructive-foreground/10 p-6 backdrop-blur-sm"
+                className="rounded-2xl bg-destructive-foreground/10 p-6"
               >
                 <span className="text-5xl font-bold opacity-20">{step}</span>
                 <h3 className="mt-4 text-lg font-semibold">{title}</h3>

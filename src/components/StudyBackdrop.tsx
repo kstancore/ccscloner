@@ -39,18 +39,17 @@ const doodles: Doodle[] = [
 export function StudyBackdrop() {
   return (
     <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-soft-gradient">
-      {/* ambient office light washes */}
-      <div className="absolute -left-32 -top-32 size-[26rem] rounded-full bg-primary/20 blur-3xl" />
-      <div className="absolute -right-28 top-24 size-[22rem] rounded-full bg-highlight/35 blur-3xl" />
-      <div className="absolute bottom-[-8rem] left-1/3 size-[24rem] rounded-full bg-mint/35 blur-3xl" />
-      <div className="absolute bottom-16 right-1/4 size-[16rem] rounded-full bg-destructive/12 blur-3xl" />
-
-      {/* window light shafts from the top-left, like a corner office */}
+      {/* ambient office light washes — painted as gradients (no blur filters) */}
       <div
-        className="absolute inset-0 opacity-40"
+        className="absolute inset-0"
         style={{
-          backgroundImage:
-            "linear-gradient(115deg, color-mix(in oklab, var(--highlight) 45%, transparent) 0%, transparent 26%, color-mix(in oklab, var(--highlight) 28%, transparent) 34%, transparent 55%)",
+          backgroundImage: [
+            "radial-gradient(38rem 30rem at 0% 0%, color-mix(in oklab, var(--primary) 20%, transparent), transparent 70%)",
+            "radial-gradient(32rem 26rem at 100% 16%, color-mix(in oklab, var(--highlight) 32%, transparent), transparent 70%)",
+            "radial-gradient(34rem 28rem at 38% 110%, color-mix(in oklab, var(--mint) 32%, transparent), transparent 70%)",
+            "radial-gradient(22rem 18rem at 76% 88%, color-mix(in oklab, var(--destructive) 12%, transparent), transparent 70%)",
+            "linear-gradient(115deg, color-mix(in oklab, var(--highlight) 20%, transparent) 0%, transparent 26%, color-mix(in oklab, var(--highlight) 12%, transparent) 34%, transparent 55%)",
+          ].join(","),
         }}
       />
 
@@ -81,11 +80,11 @@ export function StudyBackdrop() {
         <Icon
           key={i}
           strokeWidth={1.5}
-          className={`absolute ${className} ${tone} opacity-60 animate-float-slow drop-shadow-sm`}
+          className={`absolute ${className} ${tone} opacity-60 animate-float-slow`}
           style={{
             width: size,
             height: size,
-            transform: `rotate(${rotate}deg)`,
+            rotate: `${rotate}deg`,
             animationDelay: `${i * 0.7}s`,
           }}
         />
