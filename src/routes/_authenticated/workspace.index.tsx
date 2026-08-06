@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { format } from "date-fns";
-import { Link2, Play, Loader2, Sparkles, ArrowRight, FileText, Globe } from "lucide-react";
+import { Link2, Play, Loader2, ArrowRight, FileText, Globe } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { analyzeUrl } from "@/lib/extract.functions";
@@ -81,9 +81,6 @@ function Workspace() {
             <div className="absolute -right-8 -top-8 size-40 rounded-full bg-primary/10 blur-3xl" />
             <div className="absolute bottom-0 left-0 h-1 w-full bg-gradient-to-r from-primary via-mint to-highlight" />
             <div className="relative flex flex-col gap-2">
-              <span className="inline-flex w-fit items-center gap-1.5 rounded-full bg-highlight/40 px-3 py-1 text-xs font-medium text-highlight-foreground">
-                <Sparkles className="size-3.5" /> Workspace
-              </span>
               <h1 className="text-4xl font-semibold tracking-tight">
                 Hey {profile?.nickname ?? "there"}&nbsp;!
               </h1>
@@ -125,20 +122,6 @@ function Workspace() {
                   </>
                 )}
               </Button>
-              <div className="flex flex-wrap gap-3 text-xs text-muted-foreground">
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-secondary px-2.5 py-1">
-                  <span className="size-2 rounded-full bg-primary" /> Colours
-                </span>
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-secondary px-2.5 py-1">
-                  <span className="size-2 rounded-full bg-mint" /> Typography
-                </span>
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-secondary px-2.5 py-1">
-                  <span className="size-2 rounded-full bg-highlight" /> Spacing
-                </span>
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-secondary px-2.5 py-1">
-                  <span className="size-2 rounded-full bg-destructive" /> Assets
-                </span>
-              </div>
             </CardContent>
           </Card>
 
