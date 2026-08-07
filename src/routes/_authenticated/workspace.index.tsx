@@ -126,7 +126,7 @@ function Workspace() {
 
           {/* Recent work grid */}
           <div className="space-y-4">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
               <h2 className="text-xl font-semibold">Recent work</h2>
               <span className="text-xs font-medium text-muted-foreground">
                 {rows.length} project{rows.length === 1 ? "" : "s"}
