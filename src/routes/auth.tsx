@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { Eye, EyeOff, Home } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 import { toast } from "sonner";
-import { Logo } from "@/components/Logo";
+import { PublicHeader } from "@/components/PublicHeader";
 import { StudyBackdrop } from "@/components/StudyBackdrop";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
