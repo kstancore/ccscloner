@@ -36,13 +36,13 @@ function Home() {
           <h1 className="text-4xl font-semibold leading-tight md:text-5xl">
             Paste a URL. Get the whole visual identity.
           </h1>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Button asChild size="lg">
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <Button asChild size="lg" className="w-full sm:w-auto">
               <Link to="/auth">
                 Start extracting <ArrowRight />
               </Link>
             </Button>
-            <Button asChild size="lg" variant="outline">
+            <Button asChild size="lg" variant="outline" className="w-full sm:w-auto">
               <Link to="/features">See how it works</Link>
             </Button>
           </div>
