@@ -123,19 +123,9 @@ function AuthPage() {
   return (
     <div className="relative min-h-screen">
       <StudyBackdrop />
-      <header className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
-        <Link to="/">
-          <Logo size="sm" />
-        </Link>
+      <PublicHeader />
 
-        <Button asChild variant="ghost" size="sm">
-          <Link to="/">
-            <Home /> Home
-          </Link>
-        </Button>
-      </header>
-
-      <div className="mx-auto flex max-w-md flex-col items-center px-4 py-10">
+      <div className="mx-auto flex max-w-md flex-col items-center px-4 py-6 md:py-10">
         <Card className="w-full shadow-lift">
           <CardHeader>
             <CardTitle>Welcome</CardTitle>
