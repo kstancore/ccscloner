@@ -107,13 +107,13 @@ function FeaturesPage() {
             implement its visual identity — colours, typography, spacing, visual elements,
             underlying code and structure — as an editable guide you can download.
           </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Button asChild size="lg" className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <Button asChild size="lg" className="w-full bg-destructive text-destructive-foreground hover:bg-destructive/90 sm:w-auto">
               <Link to="/auth">
                 Start extracting <ArrowRight />
               </Link>
             </Button>
-            <Button asChild size="lg" variant="outline" className="border-highlight-foreground/30 bg-highlight/50 text-highlight-foreground hover:bg-highlight/70">
+            <Button asChild size="lg" variant="outline" className="w-full border-highlight-foreground/30 bg-highlight/50 text-highlight-foreground hover:bg-highlight/70 sm:w-auto">
               <Link to="/">Back home</Link>
             </Button>
           </div>
