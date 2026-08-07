@@ -1,11 +1,12 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
-import { LogOut, LayoutDashboard, UserRound, Home } from "lucide-react";
+import { LogOut, LayoutDashboard, UserRound, Home, Menu, X } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { StudyBackdrop } from "@/components/StudyBackdrop";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { avatarSignedUrl, fetchProfile, type Profile } from "@/hooks/useAuth";
 
 export function useProfileState() {
