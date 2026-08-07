@@ -59,16 +59,16 @@ export function AppShell({
     <div className="relative min-h-screen">
       <StudyBackdrop />
       <header className="sticky top-0 z-30 border-b border-border/70 bg-background/95">
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4">
-          <Link to="/" className="flex items-center">
+        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-4">
+          <Link to="/" className="flex min-w-0 items-center gap-2">
             <Logo size="sm" />
           </Link>
 
-
-          <nav className="flex items-center gap-1">
+          {/* Desktop nav */}
+          <nav className="hidden items-center gap-1 md:flex">
             <Button asChild variant={pathname === "/" ? "secondary" : "ghost"} size="sm">
               <Link to="/">
-                <Home /> Home
+                <Home className="size-4" /> Home
               </Link>
             </Button>
             <Button
@@ -77,16 +77,16 @@ export function AppShell({
               size="sm"
             >
               <Link to="/workspace">
-                <LayoutDashboard /> Workspace
+                <LayoutDashboard className="size-4" /> Workspace
               </Link>
             </Button>
             <Button asChild variant={pathname === "/profile" ? "secondary" : "ghost"} size="sm">
               <Link to="/profile">
-                <UserRound /> Profile
+                <UserRound className="size-4" /> Profile
               </Link>
             </Button>
             <Button variant="ghost" size="sm" onClick={signOut}>
-              <LogOut /> Sign out
+              <LogOut className="size-4" /> Sign out
             </Button>
             <Avatar className="ml-1 size-9 border border-border">
               {avatar ? <AvatarImage src={avatar} alt="Your profile picture" /> : null}
@@ -95,6 +95,23 @@ export function AppShell({
               </AvatarFallback>
             </Avatar>
           </nav>
+
+          {/* Mobile nav */}
+          <div className="flex items-center gap-1 md:hidden">
+            <Button
+              asChild
+              variant={pathname === "/" ? "secondary" : "ghost"}
+              size="icon"
+              className="size-9"
+              aria-label="Home"
+            >
+              <Link to="/">
+                <Home className="size-5" />
+              </Link>
+            </Button>
+
+            <MobileNav pathname={pathname} avatar={avatar} initials={initials} signOut={signOut} />
+          </div>
         </div>
       </header>
 
