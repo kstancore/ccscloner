@@ -29,10 +29,10 @@ function Home() {
   return (
     <div className="relative min-h-screen">
       <StudyBackdrop />
-      <header className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
+      <header className="mx-auto flex min-h-16 max-w-6xl flex-wrap items-center justify-between gap-x-4 gap-y-3 px-4 py-3">
         <Logo size="sm" />
 
-        <div className="flex items-center gap-2">
+        <nav className="flex flex-1 flex-wrap items-center justify-end gap-2">
           <Button asChild variant="secondary" size="sm">
             <Link to="/">
               <HomeIcon /> Home
@@ -47,8 +47,9 @@ function Home() {
           <Button asChild size="sm">
             <Link to="/auth">Get started</Link>
           </Button>
-        </div>
+        </nav>
       </header>
+
 
       <section className="mx-auto grid max-w-6xl items-center gap-10 px-4 pb-16 pt-10 md:grid-cols-2 md:pt-16">
         <div>
