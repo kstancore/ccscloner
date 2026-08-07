@@ -91,27 +91,7 @@ function FeaturesPage() {
   return (
     <div className="relative min-h-screen">
       <StudyBackdrop />
-      <header className="sticky top-0 z-30 border-b border-border/70 bg-background/95 px-4">
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between">
-        <Link to="/">
-          <Logo size="sm" />
-        </Link>
-
-        <div className="flex items-center gap-2">
-          <Button asChild variant="ghost" size="sm">
-            <Link to="/">
-              <HomeIcon /> Home
-            </Link>
-          </Button>
-          <Button asChild variant="ghost" size="sm">
-            <Link to="/auth">Log in</Link>
-          </Button>
-          <Button asChild size="sm">
-            <Link to="/auth">Get started</Link>
-          </Button>
-        </div>
-        </div>
-      </header>
+      <PublicHeader />
 
       <section className="bg-highlight/85 px-4 py-16 text-highlight-foreground md:py-24">
 
