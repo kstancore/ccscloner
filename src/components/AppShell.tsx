@@ -125,3 +125,84 @@ export function AppShell({
     </div>
   );
 }
+
+function MobileNav({
+  pathname,
+  avatar,
+  initials,
+  signOut,
+}: {
+  pathname: string;
+  avatar: string | null;
+  initials: string;
+  signOut: () => Promise<void>;
+}) {
+  const [open, setOpen] = useState(false);
+
+  const items = [
+    { to: "/workspace", label: "Workspace", icon: LayoutDashboard, active: pathname.startsWith("/workspace") },
+    { to: "/profile", label: "Profile", icon: UserRound, active: pathname === "/profile" },
+  ];
+
+  return (
+    <Sheet open={open} onOpenChange={setOpen}>
+      <SheetTrigger asChild>
+        <Button variant="ghost" size="icon" className="size-9" aria-label="Open menu">
+          <Menu className="size-5" />
+        </Button>
+      </SheetTrigger>
+      <SheetContent side="top" className="flex flex-col items-center gap-4 pt-12">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="absolute right-4 top-4 size-9"
+          onClick={() => setOpen(false)}
+          aria-label="Close menu"
+        >
+          <X className="size-5" />
+        </Button>
+
+        <Avatar className="size-12 border border-border">
+          {avatar ? <AvatarImage src={avatar} alt="Your profile picture" /> : null}
+          <AvatarFallback className="bg-secondary text-lg text-secondary-foreground">
+            {initials}
+          </AvatarFallback>
+        </Avatar>
+
+        <Link
+          to="/"
+          onClick={() => setOpen(false)}
+          className="flex items-center gap-2 text-lg font-semibold"
+        >
+          <Home className="size-5" /> Home
+        </Link>
+
+        {items.map((item) => {
+          const Icon = item.icon;
+          return (
+            <Link
+              key={item.to}
+              to={item.to}
+              onClick={() => setOpen(false)}
+              className={`flex items-center gap-2 text-lg font-semibold ${item.active ? "text-primary" : ""}`}
+            >
+              <Icon className="size-5" /> {item.label}
+            </Link>
+          );
+        })}
+
+        <Button
+          variant="ghost"
+          className="mt-2 w-full max-w-xs justify-center gap-2 text-lg font-semibold"
+          onClick={() => {
+            setOpen(false);
+            void signOut();
+          }}
+        >
+          <LogOut className="size-5" /> Sign out
+        </Button>
+      </SheetContent>
+    </Sheet>
+  );
+}
+
