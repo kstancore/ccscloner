@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, HomeIcon } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import heroImage from "@/assets/hero-extract.jpg";
-import { Logo } from "@/components/Logo";
+import { PublicHeader } from "@/components/PublicHeader";
 import { StudyBackdrop } from "@/components/StudyBackdrop";
 import { Button } from "@/components/ui/button";
 
@@ -29,40 +29,20 @@ function Home() {
   return (
     <div className="relative min-h-screen">
       <StudyBackdrop />
-      <header className="mx-auto flex min-h-16 max-w-6xl flex-wrap items-center justify-between gap-x-4 gap-y-3 px-4 py-3">
-        <Logo size="sm" />
-
-        <nav className="flex flex-1 flex-wrap items-center justify-end gap-2">
-          <Button asChild variant="secondary" size="sm">
-            <Link to="/">
-              <HomeIcon /> Home
-            </Link>
-          </Button>
-          <Button asChild variant="ghost" size="sm">
-            <Link to="/features">Features</Link>
-          </Button>
-          <Button asChild variant="ghost" size="sm">
-            <Link to="/auth">Log in</Link>
-          </Button>
-          <Button asChild size="sm">
-            <Link to="/auth">Get started</Link>
-          </Button>
-        </nav>
-      </header>
-
+      <PublicHeader />
 
       <section className="mx-auto grid max-w-6xl items-center gap-10 px-4 pb-16 pt-10 md:grid-cols-2 md:pt-16">
         <div>
           <h1 className="text-4xl font-semibold leading-tight md:text-5xl">
             Paste a URL. Get the whole visual identity.
           </h1>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Button asChild size="lg">
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <Button asChild size="lg" className="w-full sm:w-auto">
               <Link to="/auth">
                 Start extracting <ArrowRight />
               </Link>
             </Button>
-            <Button asChild size="lg" variant="outline">
+            <Button asChild size="lg" variant="outline" className="w-full sm:w-auto">
               <Link to="/features">See how it works</Link>
             </Button>
           </div>

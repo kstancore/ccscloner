@@ -8,9 +8,8 @@ import {
   FileDown,
   ArrowRight,
   CheckCircle2,
-  Home as HomeIcon,
 } from "lucide-react";
-import { Logo } from "@/components/Logo";
+import { PublicHeader } from "@/components/PublicHeader";
 import { StudyBackdrop } from "@/components/StudyBackdrop";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -92,27 +91,7 @@ function FeaturesPage() {
   return (
     <div className="relative min-h-screen">
       <StudyBackdrop />
-      <header className="sticky top-0 z-30 border-b border-border/70 bg-background/95 px-4">
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between">
-        <Link to="/">
-          <Logo size="sm" />
-        </Link>
-
-        <div className="flex items-center gap-2">
-          <Button asChild variant="ghost" size="sm">
-            <Link to="/">
-              <HomeIcon /> Home
-            </Link>
-          </Button>
-          <Button asChild variant="ghost" size="sm">
-            <Link to="/auth">Log in</Link>
-          </Button>
-          <Button asChild size="sm">
-            <Link to="/auth">Get started</Link>
-          </Button>
-        </div>
-        </div>
-      </header>
+      <PublicHeader />
 
       <section className="bg-highlight/85 px-4 py-16 text-highlight-foreground md:py-24">
 
@@ -128,13 +107,13 @@ function FeaturesPage() {
             implement its visual identity — colours, typography, spacing, visual elements,
             underlying code and structure — as an editable guide you can download.
           </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Button asChild size="lg" className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <Button asChild size="lg" className="w-full bg-destructive text-destructive-foreground hover:bg-destructive/90 sm:w-auto">
               <Link to="/auth">
                 Start extracting <ArrowRight />
               </Link>
             </Button>
-            <Button asChild size="lg" variant="outline" className="border-highlight-foreground/30 bg-highlight/50 text-highlight-foreground hover:bg-highlight/70">
+            <Button asChild size="lg" variant="outline" className="w-full border-highlight-foreground/30 bg-highlight/50 text-highlight-foreground hover:bg-highlight/70 sm:w-auto">
               <Link to="/">Back home</Link>
             </Button>
           </div>

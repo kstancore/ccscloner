@@ -77,10 +77,10 @@ function Workspace() {
       {({ profile }) => (
         <div className="space-y-10">
           {/* Welcome header */}
-          <div className="relative overflow-hidden rounded-3xl border border-border bg-card/90 p-8 shadow-soft">
+          <div className="relative overflow-hidden rounded-3xl border border-border bg-card/90 p-5 shadow-soft sm:p-8">
             <div className="absolute bottom-0 left-0 h-1 w-full bg-gradient-to-r from-primary via-mint to-highlight" />
             <div className="relative flex flex-col gap-2">
-              <h1 className="text-4xl font-semibold tracking-tight">
+              <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
                 Hey {profile?.nickname ?? "there"}&nbsp;!
               </h1>
               <p className="max-w-xl text-sm text-muted-foreground">
@@ -126,7 +126,7 @@ function Workspace() {
 
           {/* Recent work grid */}
           <div className="space-y-4">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
               <h2 className="text-xl font-semibold">Recent work</h2>
               <span className="text-xs font-medium text-muted-foreground">
                 {rows.length} project{rows.length === 1 ? "" : "s"}

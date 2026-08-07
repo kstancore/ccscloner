@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { Eye, EyeOff, Home } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 import { toast } from "sonner";
-import { Logo } from "@/components/Logo";
+import { PublicHeader } from "@/components/PublicHeader";
 import { StudyBackdrop } from "@/components/StudyBackdrop";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
@@ -123,19 +123,9 @@ function AuthPage() {
   return (
     <div className="relative min-h-screen">
       <StudyBackdrop />
-      <header className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
-        <Link to="/">
-          <Logo size="sm" />
-        </Link>
+      <PublicHeader />
 
-        <Button asChild variant="ghost" size="sm">
-          <Link to="/">
-            <Home /> Home
-          </Link>
-        </Button>
-      </header>
-
-      <div className="mx-auto flex max-w-md flex-col items-center px-4 py-10">
+      <div className="mx-auto flex max-w-md flex-col items-center px-4 py-6 md:py-10">
         <Card className="w-full shadow-lift">
           <CardHeader>
             <CardTitle>Welcome</CardTitle>
