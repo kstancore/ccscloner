@@ -49,6 +49,14 @@ function AuthPage() {
   const [busy, setBusy] = useState(false);
   const [checkingSession, setCheckingSession] = useState(true);
   const [pendingEmail, setPendingEmail] = useState<string | null>(null);
+  const [cooldown, setCooldown] = useState(0);
+  const [linkError, setLinkError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (cooldown <= 0) return;
+    const t = setTimeout(() => setCooldown((c) => c - 1), 1000);
+    return () => clearTimeout(t);
+  }, [cooldown]);
 
   const routeAfterAuth = useCallback(
     async (userId: string) => {
@@ -78,6 +86,54 @@ function AuthPage() {
       sub.subscription.unsubscribe();
     };
   }, [routeAfterAuth]);
+
+  // Handle what the confirmation link brings back in the URL.
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    const hash = new URLSearchParams(url.hash.replace(/^#/, ""));
+    const errorCode = url.searchParams.get("error_code") ?? hash.get("error_code");
+    const errorDesc = url.searchParams.get("error_description") ?? hash.get("error_description");
+    const tokenHash = url.searchParams.get("token_hash");
+    const type = url.searchParams.get("type");
+
+    const clean = () => window.history.replaceState({}, "", url.pathname);
+
+    if (errorCode) {
+      const stored = localStorage.getItem("ccs_pending_email");
+      if (stored) setPendingEmail(stored);
+      setLinkError(
+        errorCode.includes("expired")
+          ? "That confirmation link has expired. Send yourself a fresh one below."
+          : (errorDesc ?? "That link is no longer valid. Please request a new one."),
+      );
+      clean();
+      return;
+    }
+
+    if (tokenHash && type) {
+      setCheckingSession(true);
+      void supabase.auth
+        .verifyOtp({ token_hash: tokenHash, type: type as "signup" | "email" | "recovery" | "magiclink" })
+        .then(({ data, error }) => {
+          clean();
+          if (error || !data.user) {
+            const stored = localStorage.getItem("ccs_pending_email");
+            if (stored) setPendingEmail(stored);
+            setLinkError("That confirmation link has expired or was already used. Send a fresh one below.");
+            setCheckingSession(false);
+            return;
+          }
+          localStorage.removeItem("ccs_pending_email");
+          toast.success("Email confirmed!");
+          void routeAfterAuth(data.user.id);
+        });
+      return;
+    }
+
+    const stored = localStorage.getItem("ccs_pending_email");
+    if (stored) setPendingEmail(stored);
+  }, [routeAfterAuth]);
+
 
   const signIn = async () => {
     const parsed = signInSchema.safeParse({ email, password });
