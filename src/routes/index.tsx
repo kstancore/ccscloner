@@ -26,6 +26,9 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
+  // Signed-in visitors go straight to their workspace instead of a login prompt.
+  const { isAuthenticated, profile } = useSession();
+
   return (
     <div className="relative min-h-screen">
       <StudyBackdrop />
@@ -33,13 +36,18 @@ function Home() {
 
       <section className="mx-auto grid max-w-6xl items-center gap-10 px-4 pb-16 pt-10 md:grid-cols-2 md:pt-16">
         <div>
+          {isAuthenticated && profile?.nickname ? (
+            <p className="mb-2 text-sm font-medium text-primary">
+              Welcome back, {profile.nickname}.
+            </p>
+          ) : null}
           <h1 className="text-4xl font-semibold leading-tight md:text-5xl">
             Paste a URL. Get the whole visual identity.
           </h1>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Button asChild size="lg" className="w-full sm:w-auto">
-              <Link to="/auth">
-                Start extracting <ArrowRight />
+              <Link to={isAuthenticated ? "/workspace" : "/auth"}>
+                {isAuthenticated ? "Go to workspace" : "Start extracting"} <ArrowRight />
               </Link>
             </Button>
             <Button asChild size="lg" variant="outline" className="w-full sm:w-auto">
