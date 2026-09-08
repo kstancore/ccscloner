@@ -9,6 +9,7 @@ import {
   type ReactNode,
 } from "react";
 import type { Session, User } from "@supabase/supabase-js";
+import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { avatarSignedUrl, fetchProfile, type Profile } from "@/hooks/useAuth";
 
@@ -51,6 +52,8 @@ export function SessionProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
   // Guards against loading a profile for a user who already signed out.
   const currentUserId = useRef<string | null>(null);
+  // Distinguishes a user-initiated sign out from an expired/revoked session.
+  const intentionalSignOut = useRef(false);
 
   const loadProfile = useCallback(async (userId: string | null) => {
     currentUserId.current = userId;
@@ -131,6 +134,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
   }, [loadProfile]);
 
   const signOut = useCallback(async () => {
+    intentionalSignOut.current = true;
     await supabase.auth.signOut();
     setSession(null);
     await loadProfile(null);
