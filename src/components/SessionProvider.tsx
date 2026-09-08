@@ -157,8 +157,23 @@ export function SessionProvider({ children }: { children: ReactNode }) {
   return <SessionContext.Provider value={value}>{children}</SessionContext.Provider>;
 }
 
+/**
+ * Safe fallback used when a component renders outside the provider — e.g. the
+ * router's error / not-found layouts, which mount above <SessionProvider>.
+ * Returning a signed-out state keeps those screens rendering instead of
+ * crashing the page with a blank screen.
+ */
+const SIGNED_OUT: SessionState = {
+  session: null,
+  user: null,
+  profile: null,
+  avatar: null,
+  loading: false,
+  isAuthenticated: false,
+  reload: async () => {},
+  signOut: async () => {},
+};
+
 export function useSession(): SessionState {
-  const ctx = useContext(SessionContext);
-  if (!ctx) throw new Error("useSession must be used inside <SessionProvider>");
-  return ctx;
+  return useContext(SessionContext) ?? SIGNED_OUT;
 }
