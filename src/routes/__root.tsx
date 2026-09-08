@@ -13,6 +13,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Toaster } from "@/components/ui/sonner";
 import { StudyBackdrop } from "@/components/StudyBackdrop";
+import { SessionProvider } from "@/components/SessionProvider";
 
 function NotFoundComponent() {
   return (
@@ -135,8 +136,12 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      {/* Mounted once above the router outlet so the signed-in session survives
+          every route change instead of being re-created per page. */}
+      <SessionProvider>
+        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+        <Outlet />
+      </SessionProvider>
       <Toaster richColors position="top-center" />
     </QueryClientProvider>
   );
