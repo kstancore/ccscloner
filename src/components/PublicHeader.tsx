@@ -1,5 +1,5 @@
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
-import { Home, LayoutDashboard, LogOut, Menu, UserRound, X } from "lucide-react";
+import { Home, LogOut, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { Logo } from "@/components/Logo";
 import { Button } from "@/components/ui/button";
