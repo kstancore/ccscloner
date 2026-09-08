@@ -3,33 +3,11 @@ import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { LogOut, LayoutDashboard, UserRound, Home, Menu, X } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { StudyBackdrop } from "@/components/StudyBackdrop";
-import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { avatarSignedUrl, fetchProfile, type Profile } from "@/hooks/useAuth";
-
-export function useProfileState() {
-  const [profile, setProfile] = useState<Profile | null>(null);
-  const [avatar, setAvatar] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  const reload = async () => {
-    const { data } = await supabase.auth.getUser();
-    if (!data.user) return;
-    const p = await fetchProfile(data.user.id);
-    setProfile(p);
-    setAvatar(await avatarSignedUrl(p?.avatar_url ?? null));
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    void reload();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  return { profile, avatar, loading, reload };
-}
+import { useSession } from "@/components/SessionProvider";
+import type { Profile } from "@/hooks/useAuth";
 
 export function AppShell({
   children,
@@ -38,7 +16,8 @@ export function AppShell({
   children: (ctx: { profile: Profile | null; avatar: string | null; reload: () => Promise<void> }) => ReactNode;
   requireOnboarding?: boolean;
 }) {
-  const { profile, avatar, loading, reload } = useProfileState();
+  // Reads the shared session instead of fetching the user again on every page.
+  const { profile, avatar, loading, reload, signOut: endSession } = useSession();
   const navigate = useNavigate();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
@@ -49,8 +28,8 @@ export function AppShell({
   }, [loading, requireOnboarding, profile, navigate]);
 
   const signOut = async () => {
-    await supabase.auth.signOut();
-    void navigate({ to: "/" });
+    await endSession();
+    void navigate({ to: "/", replace: true });
   };
 
   const initials = (profile?.nickname ?? profile?.email ?? "?").slice(0, 2).toUpperCase();
