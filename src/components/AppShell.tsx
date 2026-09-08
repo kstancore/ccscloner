@@ -16,7 +16,8 @@ export function AppShell({
   children: (ctx: { profile: Profile | null; avatar: string | null; reload: () => Promise<void> }) => ReactNode;
   requireOnboarding?: boolean;
 }) {
-  const { profile, avatar, loading, reload } = useProfileState();
+  // Reads the shared session instead of fetching the user again on every page.
+  const { profile, avatar, loading, reload, signOut: endSession } = useSession();
   const navigate = useNavigate();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
@@ -27,8 +28,8 @@ export function AppShell({
   }, [loading, requireOnboarding, profile, navigate]);
 
   const signOut = async () => {
-    await supabase.auth.signOut();
-    void navigate({ to: "/" });
+    await endSession();
+    void navigate({ to: "/", replace: true });
   };
 
   const initials = (profile?.nickname ?? profile?.email ?? "?").slice(0, 2).toUpperCase();
