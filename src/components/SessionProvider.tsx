@@ -82,6 +82,12 @@ export function SessionProvider({ children }: { children: ReactNode }) {
 
       // TOKEN_REFRESHED / INITIAL_SESSION keep the same user: no profile refetch.
       if (event === "SIGNED_OUT") {
+        // Only warn when the session ended on its own (expired / revoked
+        // refresh token) — an intentional "Sign out" needs no error.
+        if (currentUserId.current && !intentionalSignOut.current) {
+          toast.error("Your session expired. Please sign in again.");
+        }
+        intentionalSignOut.current = false;
         void loadProfile(null);
       } else if (next?.user && next.user.id !== currentUserId.current) {
         void loadProfile(next.user.id);
