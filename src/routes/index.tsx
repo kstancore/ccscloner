@@ -3,6 +3,7 @@ import { ArrowRight } from "lucide-react";
 import heroImage from "@/assets/hero-extract.jpg";
 import { PublicHeader } from "@/components/PublicHeader";
 import { StudyBackdrop } from "@/components/StudyBackdrop";
+import { useSession } from "@/components/SessionProvider";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/")({
