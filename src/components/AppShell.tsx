@@ -3,33 +3,11 @@ import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { LogOut, LayoutDashboard, UserRound, Home, Menu, X } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { StudyBackdrop } from "@/components/StudyBackdrop";
-import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { avatarSignedUrl, fetchProfile, type Profile } from "@/hooks/useAuth";
-
-export function useProfileState() {
-  const [profile, setProfile] = useState<Profile | null>(null);
-  const [avatar, setAvatar] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  const reload = async () => {
-    const { data } = await supabase.auth.getUser();
-    if (!data.user) return;
-    const p = await fetchProfile(data.user.id);
-    setProfile(p);
-    setAvatar(await avatarSignedUrl(p?.avatar_url ?? null));
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    void reload();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  return { profile, avatar, loading, reload };
-}
+import { useSession } from "@/components/SessionProvider";
+import type { Profile } from "@/hooks/useAuth";
 
 export function AppShell({
   children,
