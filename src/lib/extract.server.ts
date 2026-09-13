@@ -1,6 +1,7 @@
 // Pure server-side helpers for analysing a web page's visual identity.
 
 import type { ColorHit, SiteReport } from "./report-types";
+import { buildReplicationSpec } from "./replication-spec.server";
 
 export type { ColorHit, SiteReport };
 
@@ -63,7 +64,19 @@ async function fetchText(url: string, timeoutMs = 12000): Promise<string> {
 }
 
 export async function buildSiteReport(rawUrl: string): Promise<SiteReport> {
-  const url = /^https?:\/\//i.test(rawUrl) ? rawUrl : `https://${rawUrl}`;
+  const candidate = /^https?:\/\//i.test(rawUrl) ? rawUrl : `https://${rawUrl}`;
+  const parsedUrl = new URL(candidate);
+  if (!/^https?:$/.test(parsedUrl.protocol) || parsedUrl.username || parsedUrl.password) {
+    throw new Error("Enter a public HTTP or HTTPS website URL.");
+  }
+  if (
+    /^(?:localhost|0\.0\.0\.0|127(?:\.\d{1,3}){3}|10(?:\.\d{1,3}){3}|192\.168(?:\.\d{1,3}){2}|169\.254(?:\.\d{1,3}){2}|172\.(?:1[6-9]|2\d|3[01])(?:\.\d{1,3}){2}|\[?::1\]?)$/i.test(
+      parsedUrl.hostname,
+    )
+  ) {
+    throw new Error("Private and local network addresses cannot be analysed.");
+  }
+  const url = parsedUrl.toString();
   const html = await fetchText(url);
 
   // Stylesheets (external + inline)
@@ -194,7 +207,7 @@ export async function buildSiteReport(rawUrl: string): Promise<SiteReport> {
   const favicon = html.match(/<link[^>]+rel=["'][^"']*icon[^"']*["'][^>]*>/i)?.[0];
   const faviconHref = favicon?.match(/href=["']([^"']+)["']/i)?.[1];
 
-  return {
+  const report: SiteReport = {
     url,
     title: stripTags(html.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1] ?? "") || new URL(url).hostname,
     description:
@@ -226,67 +239,202 @@ export async function buildSiteReport(rawUrl: string): Promise<SiteReport> {
       linkCount: [...html.matchAll(/<a\b/gi)].length,
     },
   };
+
+  report.specification = buildReplicationSpec({ html, css, url, colors });
+  return report;
 }
 
 export function buildDocumentation(report: SiteReport): string {
   const line = (s = "") => s;
   const list = (items: string[]) => (items.length ? items.map((i) => `- ${i}`).join("\n") : "- (none detected)");
+  const spec = report.specification;
+  const evidence = (items: { value: string; context?: string; count?: number }[] | undefined) =>
+    list(
+      (items ?? []).map(
+        (item) => `${item.value}${item.count && item.count > 1 ? ` — ${item.count} occurrences` : ""}${item.context ? ` (${item.context})` : ""}`,
+      ),
+    );
+  const roles = () =>
+    list(
+      (spec?.typography.roles ?? []).map((role) =>
+        [
+          `${role.role} — selector \`${role.selector}\``,
+          role.family ? `family ${role.family}` : null,
+          role.size ? `size ${role.size}` : null,
+          role.weight ? `weight ${role.weight}` : null,
+          role.style ? `style ${role.style}` : null,
+          role.lineHeight ? `line-height ${role.lineHeight}` : null,
+          role.letterSpacing ? `letter-spacing ${role.letterSpacing}` : null,
+          role.transform ? `transform ${role.transform}` : null,
+        ]
+          .filter(Boolean)
+          .join("; "),
+      ),
+    );
 
   const parts: (string | null)[] = [
-    `# Visual Identity Guide — ${report.title}`,
+    `# Website Replication Specification — ${report.title}`,
     ``,
     `**Source:** ${report.url}`,
     report.description ? `**Summary:** ${report.description}` : null,
     ``,
-    `## 1. Overview`,
-    `This guide documents the visual identity of the analysed page: colour usage, typography, spacing rhythm, component shapes and structural composition. Use it as an implementation reference.`,
+    `## 1. Capture summary`,
+    `This handoff documents the source evidence available for rebuilding the analysed page. Values are extracted from the page HTML and its accessible stylesheets; unavailable evidence is marked rather than estimated.`,
     ``,
     `- HTML weight: ${(report.stats.htmlBytes / 1024).toFixed(1)} KB`,
     `- CSS analysed: ${(report.stats.cssBytes / 1024).toFixed(1)} KB across ${report.stylesheets.length} stylesheet(s)`,
     `- Images: ${report.stats.imageCount} · Links: ${report.stats.linkCount} · Scripts: ${report.scripts}`,
     report.frameworks.length ? `- Detected technology: ${report.frameworks.join(", ")}` : null,
+    spec ? `- Capture method: ${spec.capture.method}` : null,
+    spec ? `- Captured: ${spec.capture.capturedAt}` : null,
+    spec?.capture.limitations.length ? `\n**Capture limitations**\n${list(spec.capture.limitations)}` : null,
     ``,
-    `## 2. Colour palette`,
-    list(report.colors.slice(0, 16).map((c) => `${c.value} — used ${c.count} time(s)`)),
+    `## 2. Typography`,
+    `### Text roles and selectors`,
+    roles(),
     ``,
-    `## 3. Typography`,
-    `**Font families**`,
-    list(report.fonts),
+    `### Font families`,
+    evidence(spec?.typography.families ?? report.fonts.map((value) => ({ value }))),
     ``,
-    `**Type scale (font sizes)**`,
-    list(report.fontSizes),
+    `### Font sizes`,
+    evidence(spec?.typography.sizes ?? report.fontSizes.map((value) => ({ value }))),
     ``,
-    `**Weights**`,
-    list(report.fontWeights),
+    `### Weights and styles`,
+    evidence(spec?.typography.weights ?? report.fontWeights.map((value) => ({ value }))),
     ``,
-    `## 4. Spacing & rhythm`,
-    list(report.spacing.slice(0, 18)),
+    `### Line heights`,
+    evidence(spec?.typography.lineHeights),
     ``,
-    `## 5. Shape & depth`,
-    `**Corner radii**`,
-    list(report.radii),
+    `### Letter spacing and transformations`,
+    evidence([...(spec?.typography.letterSpacings ?? []), ...(spec?.typography.transforms ?? [])]),
     ``,
-    `**Shadows**`,
-    list(report.shadows),
+    `### Font loading`,
+    list(spec?.typography.fontLoading ?? []),
     ``,
-    `## 6. Design tokens found in CSS`,
+    `## 3. Colors`,
+    `### Complete palette`,
+    list(report.colors.map((color) => `${color.value} — ${color.count} occurrences`)),
+    ``,
+    `### Background and surface colors`,
+    evidence(spec?.colors.byProperty.backgrounds),
+    ``,
+    `### Text colors`,
+    evidence(spec?.colors.byProperty.text),
+    ``,
+    `### Border, shadow, and overlay values`,
+    evidence([
+      ...(spec?.colors.byProperty.borders ?? []),
+      ...(spec?.colors.byProperty.shadows ?? []),
+      ...(spec?.colors.byProperty.overlays ?? []),
+    ]),
+    ``,
+    `### Theme variations`,
+    list(spec?.colors.themeVariations ?? []),
+    ``,
+    `## 4. Spacing`,
+    spec?.spacing.probableBaseUnit ? `- Probable base unit: ${spec.spacing.probableBaseUnit}` : `- Base unit: not reliably inferable`,
+    evidence(spec?.spacing.values ?? report.spacing.map((value) => ({ value }))),
+    ``,
+    `### Page and container rules`,
+    list(spec?.spacing.containerRules ?? []),
+    ``,
+    `## 5. Layout`,
+    `### Display modes`,
+    evidence(spec?.layout.displayModes),
+    ``,
+    `### Grid templates`,
+    evidence(spec?.layout.gridTemplates),
+    ``,
+    `### Width and container constraints`,
+    evidence(spec?.layout.containerWidths),
+    ``,
+    `### Positioning and layering`,
+    evidence([...(spec?.layout.positions ?? []), ...(spec?.layout.zIndices ?? [])]),
+    ``,
+    `## 6. Components`,
+    list(
+      (spec?.components ?? []).map(
+        (component) =>
+          `${component.type} — ${component.count} found; variants: ${component.variants.join(", ") || "none named"}; states: ${component.states.join(", ") || "none detected"}; ${component.notes.join(" ")}`,
+      ),
+    ),
+    ``,
+    `## 7. Effects`,
+    `### Shadows`,
+    evidence(spec?.effects.shadows ?? report.shadows.map((value) => ({ value }))),
+    ``,
+    `### Gradients`,
+    evidence(spec?.effects.gradients),
+    ``,
+    `### Filters and backdrop effects`,
+    evidence(spec?.effects.filters),
+    ``,
+    `### Transitions and animations`,
+    evidence([...(spec?.effects.transitions ?? []), ...(spec?.effects.animations ?? [])]),
+    ``,
+    `## 8. Assets`,
+    list(
+      (spec?.assets ?? report.images.map((image) => ({ type: "img", url: image.src, format: "unknown", alt: image.alt }))).map(
+        (asset) =>
+          `${asset.type}: ${asset.url} — ${asset.format}${asset.width || asset.height ? `; ${asset.width ?? "auto"} × ${asset.height ?? "auto"}` : ""}${asset.alt ? `; alt: “${asset.alt}”` : ""}${asset.loading ? `; loading: ${asset.loading}` : ""}`,
+      ),
+    ),
+    ``,
+    `## 9. Responsiveness`,
+    `- Viewport declaration: ${spec?.responsiveness.viewportMeta ?? "not detected"}`,
+    `- Breakpoints: ${spec?.responsiveness.breakpoints.join(", ") || "none detected"}`,
+    list(
+      (spec?.responsiveness.rules ?? []).map(
+        (rule) => `${rule.query} — ${rule.ruleCount} rules; affects ${rule.affectedSelectors.join(", ") || "unresolved selectors"}`,
+      ),
+    ),
+    ``,
+    `## 10. Interaction`,
+    list(
+      Object.entries(spec?.interaction.pseudoStates ?? {}).flatMap(([state, selectors]) =>
+        selectors.length ? [`${state}: ${selectors.join(", ")}`] : [],
+      ),
+    ),
+    ``,
+    `### Native and keyboard behavior`,
+    list(spec?.interaction.nativeBehaviors ?? []),
+    ``,
+    `### Form validation evidence`,
+    list(spec?.interaction.validation ?? []),
+    ``,
+    `## 11. Content structure`,
+    `### Landmarks`,
+    evidence(spec?.content.landmarks),
+    ``,
+    `### Heading outline`,
+    list((spec?.content.headingOutline ?? report.headings).map((heading) => `${heading.level.toUpperCase()}: ${heading.text}`)),
+    ``,
+    `### Navigation`,
+    list((spec?.content.navigation ?? []).map((item) => `${item.label} → ${item.href}`)),
+    ``,
+    `### Forms`,
+    list((spec?.content.forms ?? []).map((form) => `${form.method} ${form.action} — fields: ${form.fields.join(", ") || "none named"}`)),
+    ``,
+    `### Footer`,
+    list((spec?.content.footerLinks ?? []).map((item) => `${item.label} → ${item.href}`)),
+    ``,
+    `### Structured content`,
+    list(spec?.content.structuredDataTypes ?? []),
+    ``,
+    `## 12. Design tokens found in CSS`,
     list(report.cssVariables.map((v) => `${v.name}: ${v.value}`)),
     ``,
-    `## 7. Visual elements`,
-    list(report.images.map((i) => `${i.src}${i.alt ? ` — "${i.alt}"` : ""}`)),
-    ``,
-    `## 8. Structure & composition`,
+    `## 13. Source composition and technology`,
     list(report.elementCounts.map((e) => `<${e.tag}> × ${e.count}`)),
     ``,
-    `**Heading outline**`,
-    list(report.headings.map((h) => `${h.level.toUpperCase()}: ${h.text}`)),
-    ``,
-    report.buttonsSample.length ? `**Interactive labels**\n${list(report.buttonsSample)}\n` : null,
-    `## 9. Implementation notes`,
-    `- Recreate the palette as semantic tokens (background, foreground, primary, accent) rather than hard-coded values.`,
-    `- Load the listed font families first; typography carries most of the perceived identity.`,
-    `- Reuse the spacing values as a scale so vertical rhythm matches the original.`,
-    `- Match corner radii and shadow depth to reproduce the component feel.`,
+    report.frameworks.length ? `**Detected technology**\n${list(report.frameworks)}\n` : null,
+    report.buttonsSample.length ? `**Button labels**\n${list(report.buttonsSample)}\n` : null,
+    `## 14. Replication rules`,
+    `- Recreate semantic roles and reusable component variants; do not copy isolated values without their selector context.`,
+    `- Load detected fonts before tuning dimensions because font metrics affect wrapping and spacing.`,
+    `- Implement the mobile baseline first, then apply each extracted media query in source order.`,
+    `- Preserve landmark order, heading hierarchy, accessible labels, focus states, and validation behavior.`,
+    `- Verify unavailable dynamic states manually in a browser before declaring pixel-level parity.`,
     ``,
     line(),
   ];
