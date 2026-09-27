@@ -264,6 +264,19 @@ export function ProfileForm({
       const user = auth.user;
       if (!user) throw new Error("You are not signed in");
 
+      // Usernames must be unique — check before saving so we can show a
+      // clear message instead of a raw database error.
+      const { data: taken } = await supabase
+        .from("profiles")
+        .select("id")
+        .eq("username", parsed.data.username)
+        .neq("id", user.id)
+        .maybeSingle();
+      if (taken) {
+        toast.error("That username is already taken — please pick another one.");
+        return;
+      }
+
       let avatarPath = profile?.avatar_url ?? null;
       if (file) {
         const ext = file.name.split(".").pop()?.toLowerCase() ?? "png";
@@ -289,7 +302,11 @@ export function ProfileForm({
       await onSaved();
     } catch (e) {
       const msg = e instanceof Error ? e.message : "Could not save profile";
-      toast.error(msg.includes("duplicate") ? "That username is already taken" : msg);
+      toast.error(
+        msg.includes("profiles_username_key") || msg.includes("duplicate")
+          ? "That username is already taken — please pick another one."
+          : msg,
+      );
     } finally {
       setBusy(false);
     }
