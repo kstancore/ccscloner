@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { Eye, EyeOff, MailCheck } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 import { toast } from "sonner";
 import { PublicHeader } from "@/components/PublicHeader";
 import { StudyBackdrop } from "@/components/StudyBackdrop";
@@ -48,15 +48,6 @@ function AuthPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [busy, setBusy] = useState(false);
   const [checkingSession, setCheckingSession] = useState(true);
-  const [pendingEmail, setPendingEmail] = useState<string | null>(null);
-  const [cooldown, setCooldown] = useState(0);
-  const [linkError, setLinkError] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (cooldown <= 0) return;
-    const t = setTimeout(() => setCooldown((c) => c - 1), 1000);
-    return () => clearTimeout(t);
-  }, [cooldown]);
 
   const routeAfterAuth = useCallback(
     async (userId: string) => {
@@ -87,54 +78,6 @@ function AuthPage() {
     };
   }, [routeAfterAuth]);
 
-  // Handle what the confirmation link brings back in the URL.
-  useEffect(() => {
-    const url = new URL(window.location.href);
-    const hash = new URLSearchParams(url.hash.replace(/^#/, ""));
-    const errorCode = url.searchParams.get("error_code") ?? hash.get("error_code");
-    const errorDesc = url.searchParams.get("error_description") ?? hash.get("error_description");
-    const tokenHash = url.searchParams.get("token_hash");
-    const type = url.searchParams.get("type");
-
-    const clean = () => window.history.replaceState({}, "", url.pathname);
-
-    if (errorCode) {
-      const stored = localStorage.getItem("ccs_pending_email");
-      if (stored) setPendingEmail(stored);
-      setLinkError(
-        errorCode.includes("expired")
-          ? "That confirmation link has expired. Send yourself a fresh one below."
-          : (errorDesc ?? "That link is no longer valid. Please request a new one."),
-      );
-      clean();
-      return;
-    }
-
-    if (tokenHash && type) {
-      setCheckingSession(true);
-      void supabase.auth
-        .verifyOtp({ token_hash: tokenHash, type: type as "signup" | "email" | "recovery" | "magiclink" })
-        .then(({ data, error }) => {
-          clean();
-          if (error || !data.user) {
-            const stored = localStorage.getItem("ccs_pending_email");
-            if (stored) setPendingEmail(stored);
-            setLinkError("That confirmation link has expired or was already used. Send a fresh one below.");
-            setCheckingSession(false);
-            return;
-          }
-          localStorage.removeItem("ccs_pending_email");
-          toast.success("Email confirmed!");
-          void routeAfterAuth(data.user.id);
-        });
-      return;
-    }
-
-    const stored = localStorage.getItem("ccs_pending_email");
-    if (stored) setPendingEmail(stored);
-  }, [routeAfterAuth]);
-
-
   const signIn = async () => {
     const parsed = signInSchema.safeParse({ email, password });
     if (!parsed.success) {
@@ -146,11 +89,6 @@ function AuthPage() {
     setBusy(false);
     if (error) {
       const msg = error.message.toLowerCase();
-      if (msg.includes("not confirmed")) {
-        setPendingEmail(parsed.data.email);
-        toast.error("Please confirm your email first — we can resend the link.");
-        return;
-      }
       toast.error(
         msg.includes("invalid login")
           ? "Wrong email or password. New here? Use the Sign up tab."
@@ -190,29 +128,9 @@ function AuthPage() {
       await routeAfterAuth(data.session.user.id);
       return;
     }
-    setPendingEmail(parsed.data.email);
+    toast.success("Account created! You can log in now.");
+    setTab("signin");
     setPassword("");
-    toast.success("Check your inbox to confirm your email.");
-  };
-
-  const resend = async () => {
-    if (!pendingEmail) return;
-    setBusy(true);
-    const { error } = await supabase.auth.resend({
-      type: "signup",
-      email: pendingEmail,
-      options: { emailRedirectTo: `${window.location.origin}/auth` },
-    });
-    setBusy(false);
-    if (error) {
-      toast.error(
-        error.message.toLowerCase().includes("rate")
-          ? "Please wait a minute before asking for another email."
-          : error.message,
-      );
-      return;
-    }
-    toast.success("Confirmation email sent again.");
   };
 
   const forgotPassword = async () => {
@@ -256,136 +174,104 @@ function AuthPage() {
 
       <div className="mx-auto flex max-w-md flex-col items-center px-4 py-6 md:py-10">
         <Card className="w-full shadow-lift">
-          {pendingEmail ? (
-            <>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <MailCheck className="size-5 text-primary" /> Confirm your email
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <p className="text-sm text-muted-foreground">
-                  We sent a confirmation link to <span className="font-medium text-foreground">{pendingEmail}</span>.
-                  Click it and you'll be signed in automatically. It can take a minute to arrive — check
-                  spam too.
-                </p>
-                <Button className="w-full" variant="outline" disabled={busy} onClick={resend}>
-                  {busy ? "Sending…" : "Resend confirmation email"}
-                </Button>
-                <Button
-                  className="w-full"
-                  variant="ghost"
-                  onClick={() => {
-                    setPendingEmail(null);
-                    setTab("signin");
-                  }}
-                >
-                  Use a different email
-                </Button>
-              </CardContent>
-            </>
-          ) : (
-            <>
-              <CardHeader>
-                <CardTitle>Welcome</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <Tabs value={tab} onValueChange={(v) => setTab(v as "signin" | "signup")}>
-                  <TabsList className="grid w-full grid-cols-2">
-                    <TabsTrigger value="signin">Log in</TabsTrigger>
-                    <TabsTrigger value="signup">Sign up</TabsTrigger>
-                  </TabsList>
+          <CardHeader>
+            <CardTitle>Welcome</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Tabs value={tab} onValueChange={(v) => setTab(v as "signin" | "signup")}>
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="signin">Log in</TabsTrigger>
+                <TabsTrigger value="signup">Sign up</TabsTrigger>
+              </TabsList>
 
-                  <form
-                    className="mt-6 space-y-4"
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      if (busy || checkingSession) return;
-                      void (tab === "signin" ? signIn() : signUp());
-                    }}
-                  >
-                    <div className="space-y-2">
-                      <Label htmlFor="email">Email</Label>
-                      <Input
-                        id="email"
-                        type="email"
-                        inputMode="email"
-                        autoComplete="email"
-                        value={email}
-                        maxLength={255}
-                        onChange={(e) => setEmail(e.target.value)}
-                        placeholder="you@example.com"
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <div className="flex items-center justify-between">
-                        <Label htmlFor="password">Password</Label>
-                        {tab === "signin" && (
-                          <button
-                            type="button"
-                            onClick={forgotPassword}
-                            className="text-xs font-medium text-primary underline-offset-4 hover:underline"
-                          >
-                            Forgot password?
-                          </button>
-                        )}
-                      </div>
-                      <div className="relative">
-                        <Input
-                          id="password"
-                          type={showPassword ? "text" : "password"}
-                          autoComplete={tab === "signin" ? "current-password" : "new-password"}
-                          value={password}
-                          maxLength={72}
-                          onChange={(e) => setPassword(e.target.value)}
-                          placeholder={tab === "signin" ? "Password" : "At least 8 characters"}
-                          className="pr-10"
-                        />
-                        <button
-                          type="button"
-                          aria-label={showPassword ? "Hide password" : "Show password"}
-                          aria-pressed={showPassword}
-                          onClick={() => setShowPassword((s) => !s)}
-                          className="absolute right-1 top-1/2 z-10 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-md border border-border bg-background text-foreground shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-                        >
-                          {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                        </button>
-                      </div>
-                    </div>
-
-                    <TabsContent value="signin" className="m-0">
-                      <Button type="submit" className="w-full" disabled={busy || checkingSession}>
-                        {busy ? "Please wait…" : "Log in"}
-                      </Button>
-                    </TabsContent>
-                    <TabsContent value="signup" className="m-0">
-                      <Button type="submit" className="w-full" disabled={busy || checkingSession}>
-                        {busy ? "Please wait…" : "Create account"}
-                      </Button>
-                      <p className="mt-3 text-center text-xs text-muted-foreground">
-                        We'll email you a confirmation link to verify it's really you.
-                      </p>
-                    </TabsContent>
-
-                    <div className="flex items-center gap-3 text-xs text-muted-foreground">
-                      <span className="h-px flex-1 bg-border" /> or{" "}
-                      <span className="h-px flex-1 bg-border" />
-                    </div>
-
-                    <Button
+              <form
+                className="mt-6 space-y-4"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  if (busy || checkingSession) return;
+                  void (tab === "signin" ? signIn() : signUp());
+                }}
+              >
+                <div className="space-y-2">
+                  <Label htmlFor="email">Email</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    inputMode="email"
+                    autoComplete="email"
+                    value={email}
+                    maxLength={255}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="you@example.com"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <Label htmlFor="password">Password</Label>
+                    {tab === "signin" && (
+                      <button
+                        type="button"
+                        onClick={forgotPassword}
+                        className="text-xs font-medium text-primary underline-offset-4 hover:underline"
+                      >
+                        Forgot password?
+                      </button>
+                    )}
+                  </div>
+                  <div className="relative">
+                    <Input
+                      id="password"
+                      type={showPassword ? "text" : "password"}
+                      autoComplete={tab === "signin" ? "current-password" : "new-password"}
+                      value={password}
+                      maxLength={72}
+                      onChange={(e) => setPassword(e.target.value)}
+                      placeholder={tab === "signin" ? "Password" : "At least 8 characters"}
+                      className="pr-10"
+                    />
+                    <button
                       type="button"
-                      variant="outline"
-                      className="w-full"
-                      disabled={busy}
-                      onClick={google}
+                      aria-label={showPassword ? "Hide password" : "Show password"}
+                      aria-pressed={showPassword}
+                      onClick={() => setShowPassword((s) => !s)}
+                      className="absolute right-1 top-1/2 z-10 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-md border border-border bg-background text-foreground shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
                     >
-                      Continue with Google
-                    </Button>
-                  </form>
-                </Tabs>
-              </CardContent>
-            </>
-          )}
+                      {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                    </button>
+                  </div>
+                </div>
+
+                <TabsContent value="signin" className="m-0">
+                  <Button type="submit" className="w-full" disabled={busy || checkingSession}>
+                    {busy ? "Please wait…" : "Log in"}
+                  </Button>
+                </TabsContent>
+                <TabsContent value="signup" className="m-0">
+                  <Button type="submit" className="w-full" disabled={busy || checkingSession}>
+                    {busy ? "Please wait…" : "Create account"}
+                  </Button>
+                  <p className="mt-3 text-center text-xs text-muted-foreground">
+                    No email verification needed — you're in right away.
+                  </p>
+                </TabsContent>
+
+                <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                  <span className="h-px flex-1 bg-border" /> or{" "}
+                  <span className="h-px flex-1 bg-border" />
+                </div>
+
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="w-full"
+                  disabled={busy}
+                  onClick={google}
+                >
+                  Continue with Google
+                </Button>
+              </form>
+            </Tabs>
+          </CardContent>
         </Card>
       </div>
     </div>
