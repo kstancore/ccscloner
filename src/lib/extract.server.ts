@@ -1,6 +1,6 @@
 // Pure server-side helpers for analysing a web page's visual identity.
 
-import type { ColorHit, SiteReport } from "./report-types";
+import type { AssetSpec, ColorHit, SiteReport } from "./report-types";
 import { buildReplicationSpec } from "./replication-spec.server";
 
 export type { ColorHit, SiteReport };
@@ -374,7 +374,7 @@ export function buildDocumentation(report: SiteReport): string {
     ``,
     `## 8. Assets`,
     list(
-      (spec?.assets ?? report.images.map((image) => ({ type: "img", url: image.src, format: "unknown", alt: image.alt }))).map(
+      (spec?.assets ?? report.images.map((image): AssetSpec => ({ type: "img", url: image.src, format: "unknown", alt: image.alt }))).map(
         (asset) =>
           `${asset.type}: ${asset.url} — ${asset.format}${asset.width || asset.height ? `; ${asset.width ?? "auto"} × ${asset.height ?? "auto"}` : ""}${asset.alt ? `; alt: “${asset.alt}”` : ""}${asset.loading ? `; loading: ${asset.loading}` : ""}`,
       ),
